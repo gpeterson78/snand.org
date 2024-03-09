@@ -1,11 +1,11 @@
 # the snand foundation
 *a place for snand*
 
-welcome to the official repository for snand.org, where we maintain all the necessary files and configurations for our diverse range of projects. this repository is primarily focused on using docker-compose to orchestrate and manage containers for different applications. the purpose of this repository is both educational and to provide hosting services for family-related projects.
+welcome to the official repository for snand.org, where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects.
 
 ### projects list
 
-This repository includes the following projects:
+This repository includes the following projects (or at least eventually):
 
 - Immich: a personal photo and video backup solution.
 - WordPress (with phpMyAdmin): a popular content management system paired with a PHP database administration tool.
@@ -28,20 +28,9 @@ To get started with any project:
     Review the README.md file (if available) for specific instructions related to the project.
     Use docker-compose up -d to start the services associated with the project. Ensure Docker and Docker-compose are installed and running on your system.
 
-### contributing
-
-contributions to this repository are welcome, especially from family members who wish to add new projects or improve existing ones. To contribute:
-
-    Fork the repository.
-    Create a new branch for your feature or fix.
-    Commit your changes.
-    Push your branch and open a Pull Request.
-
-please make sure your code adheres to the best practices and is consistent with the existing codebase.
-
 ### support
 
-If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, please open an issue in the GitHub repository or just ask dad.
+If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, just ask dad.
 
 ### license
 
