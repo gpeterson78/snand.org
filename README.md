@@ -22,12 +22,6 @@ This repository includes the following projects (or at least eventually):
 
 each directory in this repository corresponds to a specific project. Inside each directory, you will find the necessary docker-compose.yml files along with other related configuration files and instructions.
 
-To get started with any project:
-
-    Navigate to the project directory.
-    Review the README.md file (if available) for specific instructions related to the project.
-    Use docker-compose up -d to start the services associated with the project. Ensure Docker and Docker-compose are installed and running on your system.
-
 ### support
 
 If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.
