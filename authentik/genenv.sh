@@ -14,10 +14,11 @@
 PG_PASS=$(openssl rand -base64 36)
 AUTHENTIK_SECRET_KEY=$(openssl rand -base64 48)
 
-# Prompt user for SMTP settings
+# Prompt user for site URL
 read -p "Provide the site URL (authentik.snand.org as default): " AUTH_URL
 AUTH_URL=${AUTH_URL:-authentik.snand.org}
 
+# Prompt user for SMTP settings
 read -p "Provide the SMTP provider (smtp.gmail.com as default): " SMTP_PROVIDER
 SMTP_PROVIDER=${SMTP_PROVIDER:-smtp.gmail.com}
 
