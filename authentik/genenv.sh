@@ -15,6 +15,9 @@ PG_PASS=$(openssl rand -base64 36)
 AUTHENTIK_SECRET_KEY=$(openssl rand -base64 48)
 
 # Prompt user for SMTP settings
+read -p "Provide the site URL (authentik.snand.org as default): " AUTH_URL
+AUTH_URL=${AUTH_URL:-authentik.snand.org}
+
 read -p "Provide the SMTP provider (smtp.gmail.com as default): " SMTP_PROVIDER
 SMTP_PROVIDER=${SMTP_PROVIDER:-smtp.gmail.com}
 
@@ -53,6 +56,7 @@ SMTP_FROM=${SMTP_FROM:-admin@snand.org}
 
 # Write all variables at once to the .env file
 {
+    echo "AUTH_URL=$AUTH_URL"
     echo "PG_PASS=$PG_PASS"
     echo "AUTHENTIK_SECRET_KEY=$AUTHENTIK_SECRET_KEY"
     echo "AUTHENTIK_EMAIL_HOST=$SMTP_PROVIDER"

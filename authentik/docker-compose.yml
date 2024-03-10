@@ -63,7 +63,7 @@ services:
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
-      - "traefik.http.routers.authentik-rtr.rule=Host(`authentik.dnans.org`)"
+      - "traefik.http.routers.authentik-rtr.rule=Host(`${AUTH_URL}`)"
       - "traefik.http.routers.authentik-rtr.entrypoints=websecure"
       - "traefik.http.routers.authentik-rtr.tls=true"
       - "traefik.http.routers.authentik-rtr.tls.certresolver=cloudflare-staging"
