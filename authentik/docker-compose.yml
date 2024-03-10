@@ -108,6 +108,7 @@ services:
       - traefik-network
     env_file:
       - .env
+      - secrets.env
     depends_on:
       - authentik-postgresql
       - authentik-redis
