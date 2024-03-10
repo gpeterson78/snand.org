@@ -10,10 +10,10 @@
 # Last Updated: 2024-03-09
 
 # Download scripts and mark them executable:
-sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/genenv.sh
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/
 sudo chmod +x genenv.sh
 
-sudo mkdir backup
+# sudo mkdir backup
 sudo wget -O ./backup/authentik_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/backup/authentik_backup.sh
 sudo chmod +x ./backup/authentik_backup.sh
 
