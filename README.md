@@ -30,7 +30,7 @@ To get started with any project:
 
 ### support
 
-If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, just ask dad.
+If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.
 
 ### license
 

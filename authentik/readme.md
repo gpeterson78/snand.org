@@ -1,9 +1,9 @@
 # snand.org authgen
 ### .env File Configuration
 
-1. **Locate the Setup Script**: Within the root directory of this project, you will find a script named `genenv.sh`. This script will configure the necessary `.env` file.
+1. Within the root directory of this project, you will find a script named `genenv.sh`. This script will configure the necessary `.env` file.
 
-2. **Execute the Script**: Navigate to your project's root directory in your terminal and run the following command:
+2. Navigate to your project's root directory in your terminal and run the following command:
 
     ```bash
     sudo chmod +x genenv.sh
@@ -12,7 +12,7 @@
 
    Follow the instructions provided by the script carefully. It will prompt you to enter various configuration details necessary for the proper functioning of the Authentik provider.
 
-3. **Verify Configuration**: After completing the script, open the `.env` file to verify that all your settings are correct. Modify any values directly in the file if necessary.  It should look similar to:
+3. After completing the script, open the `.env` file to verify that all your settings are correct. Modify any values directly in the file if necessary.  It should look similar to:
 
     ```shell
 PG_PASS=j2ZGhQEYcVuAnbf4y0z0+S5gLMguutvPRMx6U0vjU0Pgnu/9
