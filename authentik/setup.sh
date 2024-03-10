@@ -86,3 +86,4 @@ fi
 
 # Additional code that needs to run after this script
 echo "please run docker compose up -d to start the application..."
+echo "then open a web browser to https://$AUTH_URL/if/flow/initial-setup/"
