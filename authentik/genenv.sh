@@ -11,12 +11,8 @@
 # This script comes with no warranty or guarantees.
 #
 # Last Updated: 2024-03-08
-
-#!/bin/sh
-
-# Generate and write sensitive data to secrets.env
-echo "PG_PASS=$(openssl rand -base64 36)" > secrets.env
-echo "AUTHENTIK_SECRET_KEY=$(openssl rand -base64 48)" >> secrets.env
+PG_PASS=$(openssl rand -base64 36)
+AUTHENTIK_SECRET_KEY=$(openssl rand -base64 48)
 
 # Prompt user for SMTP settings
 read -p "Provide the SMTP provider (smtp.gmail.com as default): " SMTP_PROVIDER
@@ -27,9 +23,7 @@ SMTP_PORT=${SMTP_PORT:-587}
 
 read -p "Provide the SMTP username: " SMTP_USERNAME
 
-# Prompt for SMTP password and write to secrets.env
 read -p "Provide the SMTP password: " SMTP_PASSWORD
-echo "AUTHENTIK_EMAIL_PASSWORD=\"$SMTP_PASSWORD\"" >> secrets.env
 
 # Select option for TLS
 while true; do
@@ -57,11 +51,14 @@ SMTP_TIMEOUT=${SMTP_TIMEOUT:-10}
 read -p "Provide the SMTP from email (admin@snand.org as default): " SMTP_FROM
 SMTP_FROM=${SMTP_FROM:-admin@snand.org}
 
-# Write non-sensitive variables to .env
+# Write all variables at once to the .env file
 {
+    echo "PG_PASS=$PG_PASS"
+    echo "AUTHENTIK_SECRET_KEY=$AUTHENTIK_SECRET_KEY"
     echo "AUTHENTIK_EMAIL_HOST=$SMTP_PROVIDER"
     echo "AUTHENTIK_EMAIL_PORT=$SMTP_PORT"
     echo "AUTHENTIK_EMAIL_USERNAME=$SMTP_USERNAME"
+    echo "AUTHENTIK_EMAIL_PASSWORD=\"$SMTP_PASSWORD\""
     echo "AUTHENTIK_EMAIL_USE_TLS=$SMTP_USE_TLS"
     echo "AUTHENTIK_EMAIL_USE_SSL=$SMTP_USE_SSL"
     echo "AUTHENTIK_EMAIL_TIMEOUT=$SMTP_TIMEOUT"

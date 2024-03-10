@@ -22,7 +22,6 @@ services:
       POSTGRES_DB: ${PG_DB:-authentik}
     env_file:
       - .env
-      - secrets.env
 
   authentik-redis:
     image: docker.io/library/redis:alpine
@@ -58,7 +57,6 @@ services:
       - traefik-network
     env_file:
       - .env
-      - secrets.env
 #    ports:
 #      - "${COMPOSE_PORT_HTTP:-9000}:9000"
 #      - "${COMPOSE_PORT_HTTPS:-9443}:9443"
@@ -108,7 +106,6 @@ services:
       - traefik-network
     env_file:
       - .env
-      - secrets.env
     depends_on:
       - authentik-postgresql
       - authentik-redis
