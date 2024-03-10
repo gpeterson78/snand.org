@@ -4,18 +4,9 @@
 welcome to the official repository for snand.org, where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects. Projects here are under *very* active development and should not be used by anyone (including me) but be my guest.
 
 ### projects list
-This repository includes the following projects (or at least eventually):
+This repository includes the following projects (list will grow):
 
-- Immich: a personal photo and video backup solution.
-- WordPress (with phpMyAdmin): a popular content management system paired with a PHP database administration tool.
-- Traefik: an open-source edge router that makes publishing your services a fun and easy experience.
-- Cloudflare: configuration files for integrating Cloudflare services for security and performance improvements.
 - Authentik: an open-source identity provider focused on flexibility and versatility.
-- Plex: a global streaming media service and a client-server media player platform.
-- Minecraft Server: configuration for hosting a minecraft game server.
-- Pi-hole: a network-level advertisement and internet tracker blocking application.
-- LinuxServer.io Webtop: an Ubuntu-based desktop environment accessible via the web.
-- Serge: a web interface for chatting with alpaca through llama.cpp.
 
 ### usage
 each directory in this repository corresponds to a specific project. Inside each directory, you will find the necessary docker-compose.yml files along with other related configuration files and instructions.
