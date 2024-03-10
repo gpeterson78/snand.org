@@ -10,7 +10,7 @@
 # Feel free to use and modify this script for any purpose.
 # This script comes with no warranty or guarantees.
 #
-# Last Updated: 2024-03-08
+# Last Updated: 2024-03-09
 PG_PASS=$(openssl rand -base64 36)
 AUTHENTIK_SECRET_KEY=$(openssl rand -base64 48)
 
