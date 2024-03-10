@@ -10,16 +10,15 @@
 # Last Updated: 2024-03-09
 
 # Download scripts and mark them executable:
-sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/genenv.sh
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/genenv.sh
 sudo chmod +x genenv.sh
 
 sudo mkdir backup
-sudo wget -O ./backup/authentik_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/backup/authentik_backup.sh
+sudo wget -O ./backup/authentik_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/aimmich/backup/immich_backup.sh
 sudo chmod +x ./backup/authentik_backup.sh
 
 # Download docker-compose.yml
-sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/authentik/docker-compose.yml
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/docker-compose.yml
 
 # Additional code that needs to run after this script
 echo "please run docker compose up -d to start the application..."
-echo "then open a web browser to https://$AUTH_URL/if/flow/initial-setup/"
