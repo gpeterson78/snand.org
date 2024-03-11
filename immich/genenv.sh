@@ -20,6 +20,10 @@ UPLOAD_LOCATION=${UPLOAD_LOCATION:-'./library'}
 read -p "Provide the Network Name (traefik-network as default): " NETWORK_NAME
 NETWORK_NAME=${NETWORK_NAME:-'traefik-network'}
 
+# Prompt user for Immich URL
+read -p "Please provide the Immich URL (default immich.snand.org): " IMMICH_URL
+IMMICH_URL=${IMMICH_URL:-'immich.snand.org'}
+
 read -p "The Immich version to use. You can pin this to a specific version like "v1.71.0" (default release): " IMMICH_VERSION
 IMMICH_VERSION=${IMMICH_VERSION:-release}
 

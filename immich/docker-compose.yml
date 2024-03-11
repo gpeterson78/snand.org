@@ -24,7 +24,7 @@ services:
     env_file:
       - .env
     networks:
-      -  ${NETWORK_NAME}    
+      - ${NETWORK_NAME}
     labels:
       - traefik.enable=true
       - traefik.http.routers.${ENV_NAME}.entrypoints=websecure
@@ -50,7 +50,7 @@ services:
     env_file:
       - .env
     networks:
-      -  ${NETWORK_NAME}
+      - ${NETWORK_NAME}
     depends_on:
       - redis
       - database
@@ -69,14 +69,14 @@ services:
     env_file:
       - .env
     networks:
-      -  ${NETWORK_NAME}
+      - ${NETWORK_NAME}
     restart: always
 
   redis:
     container_name: immich_redis
     image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:51d6c56749a4243096327e3fb964a48ed92254357108449cb6e23999c37773c5
     networks:
-      -  ${NETWORK_NAME}
+      - ${NETWORK_NAME}
     restart: always
 
   database:
@@ -91,5 +91,5 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     networks:
-      -  ${NETWORK_NAME}
+      - ${NETWORK_NAME}
     restart: always
