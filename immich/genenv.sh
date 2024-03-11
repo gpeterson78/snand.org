@@ -17,8 +17,8 @@ read -p "The location where your uploaded files are stored (./library as default
 UPLOAD_LOCATION=${UPLOAD_LOCATION:-'./library'}
 
 # Prompt user for Docker Network (traefik-network default - sorry, this is for snand after all)
-read -p "Provide the Network Name (traefik-network as default): " NETWORK_NAME
-NETWORK_NAME=${NETWORK_NAME:-'traefik-network'}
+# read -p "Provide the Network Name (traefik-network as default): " NETWORK_NAME
+# NETWORK_NAME=${NETWORK_NAME:-'traefik-network'}
 
 # Prompt user for Immich URL
 read -p "Please provide the Immich URL (default immich.snand.org): " IMMICH_URL
@@ -34,7 +34,7 @@ read -p "The environment name (default immich): " ENV_NAME
     echo "DB_PASSWORD=$DB_PASSWORD"
     echo "UPLOAD_LOCATION=$UPLOAD_LOCATION"
     echo "IMMICH_VERSION=$IMMICH_VERSION"
-    echo "NETWORK_NAME=$NETWORK_NAME"
+#    echo "NETWORK_NAME=$NETWORK_NAME"
     echo "ENV_NAME=$ENV_NAME"
     echo "IMMICH_URL=$IMMICH_URL"
 ###################################################################################
