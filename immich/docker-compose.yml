@@ -9,9 +9,6 @@ version: '3.8'
 #
 
 name: immich
-networks:
-   ${NETWORK_NAME}:
-    external: true
 
 services:
   immich-server:
@@ -93,3 +90,7 @@ services:
     networks:
       - ${NETWORK_NAME}
     restart: always
+    
+networks:
+  ${NETWORK_NAME}:
+    external: true
