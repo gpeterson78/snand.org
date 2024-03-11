@@ -1,8 +1,7 @@
 #!/bin/sh
-# Setup Script for snand.org's Self-Hosted Platform Authentication
+# Setup Script for snand.org's Self-Hosted Platform Authentication Provider - Authenitik
 #
-# This script assists in the initial setup for the Authentik OAuth provider 
-# in snand's suite of self-hosted applications.
+# This script assists in the initial setup for snand's Authentik platform
 #
 # Author: Grady Peterson
 # Website: https://snand.org
