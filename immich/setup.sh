@@ -14,7 +14,7 @@ sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/ge
 sudo chmod +x genenv.sh
 
 sudo mkdir backup
-sudo wget -O ./backup/authentik_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/aimmich/backup/immich_backup.sh
+sudo wget -O ./backup/authentik_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/backup/immich_backup.sh
 sudo chmod +x ./backup/authentik_backup.sh
 
 # Download docker-compose.yml
