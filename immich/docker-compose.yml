@@ -18,10 +18,10 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.${ENV_NAME}.entrypoints=websecure
-      - traefik.http.routers.immichdev.rule=Host(`${IMMICH_URL} `)
-      - traefik.http.routers.immichdev.tls.certresolver=cloudflare-staging
-      - traefik.http.routers.immichdev.tls=true
-      - traefik.http.services.immichdev.loadbalancer.server.port=3001
+      - traefik.http.routers.${ENV_NAME}.rule=Host(`${IMMICH_URL} `)
+      - traefik.http.routers.${ENV_NAME}.tls.certresolver=cloudflare-staging
+      - traefik.http.routers.${ENV_NAME}.tls=true
+      - traefik.http.services.${ENV_NAME}.loadbalancer.server.port=3001
     depends_on:
       - redis
       - database
