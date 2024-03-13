@@ -35,7 +35,6 @@ find "$BACKUP_DIR"/* -mtime +31 -type f -name 'immich_db_dump_*.gz' -exec rm {} 
 #
 # this is dumb but ok for testing:
 #
-rsync ../upload/library -avhP /mnt/aggr1/backup/immich/
-rsync ../upload/upload -avhP /mnt/aggr1/backup/immich/
-rsync ../upload/profile -avhP /mnt/aggr1/backup/immich/
-e
+sudo rsync ../upload/library -avhP /mnt/aggr1/backup/immich/
+sudo rsync ../upload/upload -avhP /mnt/aggr1/backup/immich/
+sudo rsync ../upload/profile -avhP /mnt/aggr1/backup/immich/
