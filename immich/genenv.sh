@@ -44,7 +44,7 @@ if [ ! -f ".env" ]; then
         echo "REDIS_HOSTNAME=immich_redis"
     } > .env
 
-    UPLOAD_LOCATION=./library
+    UPLOAD_LOCATION=./upload
     IMMICH_VERSION=release
 
     DB_HOSTNAME=immich_postgres
