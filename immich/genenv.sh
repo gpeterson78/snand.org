@@ -16,8 +16,8 @@ if [ ! -f ".env" ]; then
     DB_PASSWORD=$(openssl rand -base64 36)
 
     # Prompt user for Upload location
-    read -p "Please enter the location where the uploaded files are stored (./library as default): " UPLOAD_LOCATION
-    UPLOAD_LOCATION=${UPLOAD_LOCATION:-'./library'}
+    read -p "Please enter the location where the uploaded files are stored (./upload as default): " UPLOAD_LOCATION
+    UPLOAD_LOCATION=${UPLOAD_LOCATION:-'./upload'}
 
     # Prompt user for Immich URL
     read -p "Please provide the Immich URL (default immich.snand.org): " IMMICH_URL
