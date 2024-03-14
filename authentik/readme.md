@@ -14,7 +14,7 @@
 
 3. After completing the script, open the `.env` file to verify that all your settings are correct. Modify any values directly in the file if necessary.  It should look similar to:
 
-    ```Dotenv
+    ```shell
 PG_PASS=j2ZGhQEYcVuAnbf4y0z0+S5gLMguutvPRMx6U0vjU0Pgnu/9
 AUTHENTIK_SECRET_KEY=utqrSGoeY1Mc/1ZguRL+sDXnoxgAdZG9YtFXL2c+2ExM2PZzso3Z6bnu5h/zlELA
 AUTHENTIK_EMAIL__HOST=smtp.gmail.com
