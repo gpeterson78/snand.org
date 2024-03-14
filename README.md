@@ -8,6 +8,7 @@ This repository includes the following projects (list will grow):
 
 - **Authentik**: the fam is tired of so many logins.
 - **Immich**: because who trusts the cloud with family photos anymore.
+- **WordPress + phpMyAdmin**: blogging and pretending we understand databases.
 
 ### usage
 each directory in this repository corresponds to a specific project. Inside each directory, you will find the necessary docker-compose.yml files along with other related configuration files and instructions.

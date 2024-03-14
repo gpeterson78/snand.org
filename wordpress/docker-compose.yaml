@@ -1,0 +1,56 @@
+version: '3.1'
+networks:
+  traefik-network:
+    external: true
+services:
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wordpress.entrypoints=websecure
+      - traefik.http.routers.wordpress.tls=true
+      - traefik.http.routers.wordpress.tls.certresolver=cloudflare-staging
+      - traefik.http.routers.wordpress.rule=Host(`${WORDPRESS_URL}`)"
+    environment:
+      WORDPRESS_DB_HOST: wordpressdb:3306
+      WORDPRESS_DB_USER: ${MYSQL_DATABASE_USER_NAME}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - traefik-network  
+    volumes:
+      - ./data:/var/www/html
+  wordpressdb:
+    image: mariadb:latest
+    container_name: wordpressdb
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: ${MYSQL_DATABASE_USER_NAME}
+      MYSQL_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_ROOT_PASSWORD}
+    networks:
+      - traefik-network     
+    volumes:
+      - ./db:/var/lib/mysql
+
+# Define the 'pma' service for phpMyAdmin.
+  pma: 
+    image: phpmyadmin
+    container_name: wordpressphp
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wordpressphp.tls=true
+      - traefik.http.routers.wordpressphp.tls.certresolver=pcloudflare-staging
+      - traefik.http.routers.wordpressphp.entrypoints=websecure
+      - traefik.http.routers.wordpressphp.rule=Host(`${MYPHPADMIN_URL}`)"
+    networks:
+      - traefik_default 
+    environment:
+      # Disable arbitrary server connection; use the configured host and port
+      - PMA_ARBITRARY=0 
+      - PMA_HOST=wordpressdb
+      - PMA_PORT=3306
