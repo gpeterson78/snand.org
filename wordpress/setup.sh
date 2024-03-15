@@ -21,7 +21,7 @@ sudo chmod +x ./backup/wordpress_backup.sh
 sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/docker-compose.yaml
 
 # download dockerfile for mariadb + mariadbclient
-sudo get https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/dockerfile
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/dockerfile
 docker build -t snand_mariadb .
 
 # Additional code that needs to run after this script
