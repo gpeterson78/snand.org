@@ -25,14 +25,14 @@ if [ ! -f ".env" ]; then
 
     # Prompt user for Upload location
     read -p "Please enter the location for the wordpress content (./config as default): " WORDPRESS_DATA
-    WORDPRESS_DATA=${WORDPRESS_DATA:-'./db'
+    WORDPRESS_DATA=${WORDPRESS_DATA:-'./config'}
 
     # Prompt user for Immich URL
-    read -p "Please provide the Immich URL (default immich.snand.org): " WORDPRESS_URL
+    read -p "Please provide the Immich URL (default www.snand.org): " WORDPRESS_URL
     WORDPRESS_URL=${WORDPRESS_URL:-'www.snand.org'}
 
     # Prompt user for Immich URL
-    read -p "Please provide the Immich URL (default immich.snand.org): " MYPHPADMIN_URL
+    read -p "Please provide the Immich URL (default db.snand.org): " MYPHPADMIN_URL
     MYPHPADMIN_URL=${MYPHPADMIN_URL:-'db.snand.org'}
 
     # Write all variables at once to the .env file
