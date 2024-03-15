@@ -23,7 +23,7 @@ services:
     volumes:
       - ./data:/var/www/html
   wordpressdb:
-    image: mariadb:latest
+    image: snand_mariadb
     container_name: wordpressdb
     restart: unless-stopped
     environment:
