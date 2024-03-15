@@ -1,51 +1,53 @@
 #!/bin/sh
-# Environment generation Script for snand.org's Self-Hosted Immich photo and backup site
+# environment generation Script for snand.org
 #
-# This script assists in the initial setup for Immich in snand's suite of self-hosted applications.
+# author: Grady Peterson
+# website: https://snand.org
+# license: MIT License
+# feel free to use and modify this script for any purpose.
+# this script comes with no warranty or guarantees.
 #
-# Author: Grady Peterson
-# Website: https://snand.org
-# License: MIT License
-# Feel free to use and modify this script for any purpose.
-# This script comes with no warranty or guarantees.
+# last Updated: 2024-03-14
 #
-# Last Updated: 2024-03-09
-#
-# Check if .env file exists
+# check if .env file exists
 if [ ! -f ".env" ]; then
     echo ".env file does not exist, creating..."
     
     # Generate random database password
-    DB_PASSWORD=$(openssl rand -base64 36)
+    MYSQL_DATABASE_PASSWORD=$(openssl rand -base64 36)
+
+    # Generate random database password
+    MYSQL_DATABASE_ROOT_PASSWORD=$(openssl rand -base64 48)
 
     # Prompt user for Upload location
-    read -p "Please enter the location where the uploaded files are stored (./upload as default): " UPLOAD_LOCATION
-    UPLOAD_LOCATION=${UPLOAD_LOCATION:-'./upload'}
+    read -p "Please enter the location for the databse (./db as default): " MYSQL_DATA
+    MYSQL_DATA=${MYSQL_DATA:-'./db'}
+
+    # Prompt user for Upload location
+    read -p "Please enter the location for the wordpress content (./config as default): " WORDPRESS_DATA
+    WORDPRESS_DATA=${WORDPRESS_DATA:-'./db'
 
     # Prompt user for Immich URL
-    read -p "Please provide the Immich URL (default immich.snand.org): " IMMICH_URL
-    IMMICH_URL=${IMMICH_URL:-'immich.snand.org'}
+    read -p "Please provide the Immich URL (default immich.snand.org): " WORDPRESS_URL
+    WORDPRESS_URL=${WORDPRESS_URL:-'www.snand.org'}
 
-    # Prompt user for Immich version
-    read -p "Please enter the Immich version to use. You can pin this to a specific version like \"v1.71.0\" (default release): " IMMICH_VERSION
-    IMMICH_VERSION=${IMMICH_VERSION:-release}
-
-    # Prompt user for environment name
-    read -p "Please enter the environment name (default immich): " ENV_NAME
-    ENV_NAME=${ENV_NAME:-immich}
+    # Prompt user for Immich URL
+    read -p "Please provide the Immich URL (default immich.snand.org): " MYPHPADMIN_URL
+    MYPHPADMIN_URL=${MYPHPADMIN_URL:-'db.snand.org'}
 
     # Write all variables at once to the .env file
     {
-        echo "DB_PASSWORD=$DB_PASSWORD"
-        echo "UPLOAD_LOCATION=$UPLOAD_LOCATION"
+        echo "MYSQL_DATABASE_PASSWORD=$MYSQL_DATABASE_PASSWORD"
+        echo "MYSQL_DATABASE_ROOT_PASSWORD=$MYSQL_DATABASE_ROOT_PASSWORD"
+        echo "MYSQL_DATA=$MYSQL_DATA"
+        echo "WORDPRESS_DATA=$WORDPRESS_DATA"
         echo "IMMICH_VERSION=$IMMICH_VERSION"
         echo "ENV_NAME=$ENV_NAME"
-        echo "IMMICH_URL=$IMMICH_URL"
+        echo "WORDPRESS_URL=$WORDPRESS_URL"
+        echo "MYPHPADMIN_URL=$MYPHPADMIN_URL"
         # The values below do not need to be changed
-        echo "DB_HOSTNAME=immich_postgres"
-        echo "DB_USERNAME=postgres"
-        echo "DB_DATABASE_NAME=immich"
-        echo "REDIS_HOSTNAME=immich_redis"
+        echo "MYSQL_DATABASE_USER_NAME=wordpress"
+        echo "WEB_SERVER_PORT=4321"
     } > .env
 
 else
@@ -58,4 +60,4 @@ fi
 
 # Additional code that needs to run after this script
 echo "Please run 'docker compose up -d' to start the application..."
-echo "Then open a web browser to https://$IMMICH_URL"
+echo "Then open a web browser to https://$WORDPRESS_URL"

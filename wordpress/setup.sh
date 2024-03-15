@@ -1,16 +1,16 @@
 #!/bin/sh
-# Setup Script for snand.org's Self-Hosted Immich photo sharing and backup platform
+# setup Script for snand.org.
 #
-# Author: Grady Peterson
-# Website: https://snand.org
-# License: MIT License
-# Feel free to use and modify this script for any purpose.
-# This script comes with no warranty or guarantees.
+# author: Grady Peterson
+# website: https://snand.org
+# license: MIT License
+# feel free to use and modify this script for any purpose.
+# this script comes with no warranty or guarantees.
 #
-# Last Updated: 2024-03-09
+# last Updated: 2024-03-09
 
-# Download scripts and mark them executable:
-sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/genenv.sh
+# download scripts and mark them executable:
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/genenv.sh
 sudo chmod +x genenv.sh
 
 sudo mkdir backup
