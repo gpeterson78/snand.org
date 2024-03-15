@@ -1,0 +1,24 @@
+#!/bin/sh
+# Setup Script for snand.org's Self-Hosted Immich photo sharing and backup platform
+#
+# Author: Grady Peterson
+# Website: https://snand.org
+# License: MIT License
+# Feel free to use and modify this script for any purpose.
+# This script comes with no warranty or guarantees.
+#
+# Last Updated: 2024-03-09
+
+# Download scripts and mark them executable:
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/genenv.sh
+sudo chmod +x genenv.sh
+
+sudo mkdir backup
+sudo wget -O ./backup/wordpress_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/backup/wordpress_backup.sh
+sudo chmod +x ./backup/wordpress_backup.sh
+
+# Download docker-compose.yml
+sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/docker-compose.yaml
+
+# Additional code that needs to run after this script
+echo "please run docker compose up -d to start the application..."
