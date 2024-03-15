@@ -20,5 +20,8 @@ sudo chmod +x ./backup/wordpress_backup.sh
 # Download docker-compose.yml
 sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/wordpress/docker-compose.yaml
 
+docker build -t my_mariadb .
+
+
 # Additional code that needs to run after this script
 echo "please run docker compose up -d to start the application..."
