@@ -7,13 +7,13 @@
 # Feel free to use and modify this script for any purpose.
 # This script comes with no warranty or guarantees.
 #
-# Last Updated: 2024-03-09
+# Last Updated: 2024-03-14
 
 # Download scripts and mark them executable:
 sudo wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/genenv.sh
 sudo chmod +x genenv.sh
 
-sudo mkdir backup
+sudo mkdir -p ./backup
 sudo wget -O ./backup/immich_backup.sh https://raw.githubusercontent.com/gpeterson78/snand.org/main/immich/backup/immich_backup.sh
 sudo chmod +x ./backup/immich_backup.sh
 
