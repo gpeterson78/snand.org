@@ -12,7 +12,7 @@ services:
       - traefik.http.routers.wordpress.entrypoints=websecure
       - traefik.http.routers.wordpress.tls=true
       - traefik.http.routers.wordpress.tls.certresolver=cloudflare-staging
-      - traefik.http.routers.wordpress.rule=Host(`${WORDPRESS_URL}`)"
+      - traefik.http.routers.wordpress.rule=Host(`${WORDPRESS_URL}`)
     environment:
       WORDPRESS_DB_HOST: wordpressdb:3306
       WORDPRESS_DB_USER: ${MYSQL_DATABASE_USER_NAME}
@@ -46,9 +46,9 @@ services:
       - traefik.http.routers.wordpressphp.tls=true
       - traefik.http.routers.wordpressphp.tls.certresolver=pcloudflare-staging
       - traefik.http.routers.wordpressphp.entrypoints=websecure
-      - traefik.http.routers.wordpressphp.rule=Host(`${MYPHPADMIN_URL}`)"
+      - traefik.http.routers.wordpressphp.rule=Host(`${MYPHPADMIN_URL}`)
     networks:
-      - traefik_default 
+      - traefik-network 
     environment:
       # Disable arbitrary server connection; use the configured host and port
       - PMA_ARBITRARY=0 
