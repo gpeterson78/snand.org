@@ -20,19 +20,19 @@ if [ ! -f ".env" ]; then
     MYSQL_DATABASE_ROOT_PASSWORD=$(openssl rand -base64 48)
 
     # Prompt user for Upload location
-    read -p "Please enter the location for the databse (./db as default): " MYSQL_DATA
+    read -p "please enter the location for the databse (./db as default): " MYSQL_DATA
     MYSQL_DATA=${MYSQL_DATA:-'./db'}
 
     # Prompt user for Upload location
-    read -p "Please enter the location for the wordpress content (./config as default): " WORDPRESS_DATA
+    read -p "please enter the location for the wordpress content (./config as default): " WORDPRESS_DATA
     WORDPRESS_DATA=${WORDPRESS_DATA:-'./config'}
 
     # Prompt user for Immich URL
-    read -p "Please provide the Immich URL (default www.snand.org): " WORDPRESS_URL
+    read -p "please provide the wordpress URL (default www.snand.org): " WORDPRESS_URL
     WORDPRESS_URL=${WORDPRESS_URL:-'www.snand.org'}
 
     # Prompt user for Immich URL
-    read -p "Please provide the Immich URL (default db.snand.org): " MYPHPADMIN_URL
+    read -p "please provide the Immich URL (default db.snand.org): " MYPHPADMIN_URL
     MYPHPADMIN_URL=${MYPHPADMIN_URL:-'db.snand.org'}
 
     # Write all variables at once to the .env file
@@ -54,10 +54,9 @@ else
     echo ".env file already exists, creating a backup and moving on..."
     # Ensure backup directory exists
     mkdir -p ./backup
-    # Create a backup of the current .env file
-    cp .env "./backup/.env_backup_$(date +%Y%m%d%H%M%S)"
 fi
-
+# Create a backup of the current .env file
+cp .env "./backup/env_$(date +%Y%m%d%H%M%S)"
 # Additional code that needs to run after this script
-echo "Please run 'docker compose up -d' to start the application..."
-echo "Then open a web browser to https://$WORDPRESS_URL"
+echo "please run 'docker compose up -d' to start the application..."
+echo "then open a web browser to https://$WORDPRESS_URL"
