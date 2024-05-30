@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+  valkey:
+    container_name: valkey
+    image: cgr.dev/chainguard/valkey:latest
+#    image: valkey/valkey:latest
+    command: --save 30 1 --loglevel warning
+    restart: unless-stopped
+    networks:
+      - traefik-network
+    volumes:
+      - valkey-data:/data
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  searxng:
+    container_name: searxng
+    image: docker.io/searxng/searxng:latest
+    env_file:
+      - stack.env
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${ENV_NAME}.entrypoints=websecure
+      - traefik.http.routers.${ENV_NAME}.rule=Host(`${SEARCH_URL}`)
+      - traefik.http.routers.${ENV_NAME}.tls.certresolver=cloudflare-staging
+      - traefik.http.routers.${ENV_NAME}.tls=true
+      - traefik.http.services.${ENV_NAME}.loadbalancer.server.port=8080
+    restart: unless-stopped
+    networks:
+      - traefik-network
+#    ports:
+#      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+networks:
+  traefik-network:
+    external: true
+volumes:
+  valkey-data:
