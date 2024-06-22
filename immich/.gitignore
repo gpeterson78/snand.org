@@ -8,3 +8,5 @@ secrets.env
 *.log
 *.tmp
 *.bak
+docker-compose-original.yml
+docker-compose.yml_6-21-2024
