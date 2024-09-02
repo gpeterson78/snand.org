@@ -1,12 +1,12 @@
 #!/bin/sh
-# launch.sh
+# launch-docker.sh
 # Script to launch Docker Compose projects by pulling the latest images and bringing up the services.
 #
-# Author: Grady Peterson & ChatGPT
+# Author: Grady Peterson
 # License: MIT License
 #
 # Define the paths to your Docker Compose projects
-PROJECTS="/snand/docker/traefik /snand/docker/wordpress /snand/docker/immich"
+PROJECTS="/snand/docker/wordpress /snand/docker/immich /snand/docker/traefik"
 
 # Iterate over each project and launch it
 for PROJECT in $PROJECTS; do
@@ -15,10 +15,10 @@ for PROJECT in $PROJECTS; do
         cd "$PROJECT"
         
         # Pull the latest images
-        docker-compose pull
+        docker compose pull
         
         # Start the services in detached mode
-        docker-compose up -d
+        docker compose up -d
         
         echo "Docker Compose project in $PROJECT launched successfully."
     else
