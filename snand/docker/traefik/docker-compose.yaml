@@ -1,79 +1,37 @@
-version: "3.9"
-
 services:
   traefik:
-    image: traefik:v2.11
+    image: traefik:v3.1.2
     container_name: traefik
     restart: unless-stopped
     command:
-      # HTTP to HTTPS global redirection
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
-      - "--serversTransport.insecureSkipVerify=true"
-      # In case you want to enable metrics, uncomment the 2 lines below
-      #- "--metrics.prometheus=true"
-      #- "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
-      - "--log.level=info"
-      # Traefik dashboard
-      - "--api.dashboard=true" # Enable dashboard
-      - "--api.insecure=true" # Public access to API (insecure)
-      # Configuration file for certs
-      - "--providers.file.filename=/etc/traefik/dynamic/certs-config.yaml"
-#      - "--providers.file.directory=/etc/traefik/conf"
-#      - "--providers.file.watch=true"
-      # Docker configuration
-      - "--providers.docker=true" # Enable Docker provider
-      - "--providers.docker.exposedbydefault=false" # Disable exposing all containers by default
-      - "--providers.docker.network=traefik-network" # Use the traefik network
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock" # Docker socket
-      - "--providers.docker.swarmMode=false" # Disable swarm mode
-
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
-      - "--certificatesresolvers.cloudflare.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.cloudflare.acme.email=UH-UH!!?!"
-      - "--certificatesresolvers.cloudflare.acme.KeyType=EC256"
-      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
-#
-      - "--certificatesresolvers.cloudflare-staging.acme.dnschallenge=true"
-      - "--certificatesresolvers.cloudflare-staging.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cloudflare-staging.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
-      - "--certificatesresolvers.cloudflare-staging.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.cloudflare-staging.acme.email=WHAT!!?!"
-      - "--certificatesresolvers.cloudflare-staging.acme.KeyType=EC256"
-      - "--certificatesresolvers.cloudflare-staging.acme.storage=/letsencrypt/acme.json"
-
-#      lego --email you@example.com --dns cloudflare --domains my.example.org run
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.dnans.org`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-#      - "traefik.http.routers.traefik.service=api@internal" # Enable API as a service
-#      - "traefik.http.middlewares.auth.basicauth.users=USER:PASSWORD"
-#      - "traefik.http.routers.traefik.middlewares=auth"
+      - "--log.level=${TRAEFIK_LOG_LEVEL}"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"  # You can set this to false in production
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
     environment:
-      - CLOUDFLARE_EMAIL=NOPE!!?!
-      - CLOUDFLARE_DNS_API_TOKEN=WHAT!!?!
+      - CLOUDFLARE_EMAIL=${CLOUDFLARE_EMAIL}
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
     ports:
-      # Expose port 80 (HTTP) and 443 (HTTPS)
       - "80:80"
       - "443:443"
-      - "8080:8080"  # (optional) expose the dashboard !don't use in production!
+      - "8080:8080"  # Dashboard (optional)
     volumes:
-      # Docker socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # Certs dynamic config
-#      - ./certs-config.yaml:/etc/traefik/dynamic/certs-config.yaml:ro
-      # Certs dir
-      - ./certs:/etc/certs:ro
-      - ./letsencrypt:/letsencrypt
+      - ${LETSENCRYPT_PATH}:/letsencrypt
     networks:
-      - traefik_default
+      - traefik-network
+
 networks:
   traefik-network:
-    external: true
+    driver: bridge

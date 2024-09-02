@@ -1,0 +1,9 @@
+# Ignore sensitive data files
+
+# Ignore local environment configuration
+.env
+
+# Additionally, ignore common file types that should not be committed
+*.log
+*.tmp
+*.bak
