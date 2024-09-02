@@ -1,5 +1,7 @@
 #!/bin/sh
 # setup Script for snand.org.
+# download this script for execution with the following command:  
+# wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/setup.sh && chmod +x setup.sh
 #
 # author: Grady Peterson
 # website: https://snand.org
@@ -33,9 +35,7 @@ for SCRIPT in "${SCRIPTS[@]}"; do
     fi
 done
 # Download docker-compose.yml files if they don't already exist
-COMPOSE_FILES=(
-    "/snand/docker/wordpress/docker-compose.yaml"
-)
+COMPOSE_FILES=("/snand/docker/wordpress/docker-compose.yaml")
 for COMPOSE_FILE in "${COMPOSE_FILES[@]}"; do
     if [ ! -f "$COMPOSE_FILE" ]; then
         sudo wget -P "$(dirname "$COMPOSE_FILE")" "https://raw.githubusercontent.com/gpeterson78/snand.org/main/$(basename "$(dirname "$COMPOSE_FILE")")/docker-compose.yaml"
