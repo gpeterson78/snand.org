@@ -14,7 +14,7 @@
 # Last Updated: 2024-09-02
 #
 # Create directories if they don't exist
-for DIR in /snand/scripts /snand/docker/wordpress; do
+for DIR in /snand/scripts /snand/docker/wordpress /snand/docker/immich; do
     if [ ! -d "$DIR" ]; then
         sudo mkdir -p "$DIR"
         echo "Created $DIR directory."
@@ -35,7 +35,7 @@ for SCRIPT in genenv.sh wordpress_backup.sh wordpress_restore.sh; do
 done
 
 # Download docker-compose.yml files if they don't already exist
-for COMPOSE_FILE in /snand/docker/wordpress/docker-compose.yaml; do
+for COMPOSE_FILE in /snand/docker/wordpress/docker-compose.yaml /snand/docker/immich/docker-compose.yaml; do
     if [ ! -f "$COMPOSE_FILE" ]; then
         sudo wget -P "$(dirname "$COMPOSE_FILE")" "https://raw.githubusercontent.com/gpeterson78/snand.org/main/$(basename "$(dirname "$COMPOSE_FILE")")/docker-compose.yaml"
         echo "Downloaded $(basename "$COMPOSE_FILE")."
