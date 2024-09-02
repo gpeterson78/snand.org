@@ -35,9 +35,15 @@ for SCRIPT in genenv.sh wordpress_backup.sh wordpress_restore.sh; do
 done
 
 # Download docker-compose.yml files if they don't already exist
-for COMPOSE_FILE in /snand/docker/wordpress/docker-compose.yaml /snand/docker/immich/docker-compose.yaml; do
+declare -A COMPOSE_FILES
+COMPOSE_FILES=(
+    ["/snand/docker/wordpress/docker-compose.yaml"]="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker/wordpress/docker-compose.yaml"
+    ["/snand/docker/immich/docker-compose.yaml"]="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker/immich/docker-compose.yaml"
+)
+
+for COMPOSE_FILE in "${!COMPOSE_FILES[@]}"; do
     if [ ! -f "$COMPOSE_FILE" ]; then
-        sudo wget -P "$(dirname "$COMPOSE_FILE")" "https://raw.githubusercontent.com/gpeterson78/snand.org/snand/$(basename "$(dirname "$COMPOSE_FILE")")/docker-compose.yaml"
+        sudo wget -P "$(dirname "$COMPOSE_FILE")" "${COMPOSE_FILES[$COMPOSE_FILE]}"
         echo "Downloaded $(basename "$COMPOSE_FILE")."
     else
         echo "$(basename "$COMPOSE_FILE") already exists in $(dirname "$COMPOSE_FILE"), skipping download."
