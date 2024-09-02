@@ -23,29 +23,32 @@ for DIR in /snand/scripts /snand/docker/wordpress /snand/docker/immich; do
     fi
 done
 
-# Download scripts and mark them executable if they don't already exist
-for SCRIPT in genenv.sh wordpress_backup.sh wordpress_restore.sh; do
+# List of scripts to download
+SCRIPTS="genenv.sh wordpress_backup.sh wordpress_restore.sh"
+SCRIPT_URL_BASE="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/scripts"
+
+# Download scripts
+for SCRIPT in $SCRIPTS; do
     if [ ! -f "/snand/scripts/$SCRIPT" ]; then
-        sudo wget -P /snand/scripts/ "https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/scripts/$SCRIPT"
+        sudo wget -P /snand/scripts/ "$SCRIPT_URL_BASE/$SCRIPT"
         sudo chmod +x "/snand/scripts/$SCRIPT"
         echo "Downloaded and made $SCRIPT executable."
     else
-        echo "$SCRIPT already exists in /snand/scripts, skipping download."
+        echo "$SCRIPT already exists, skipping download."
     fi
 done
 
-# Download docker-compose.yml files if they don't already exist
-declare -A COMPOSE_FILES
-COMPOSE_FILES=(
-    ["/snand/docker/wordpress/docker-compose.yaml"]="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker/wordpress/docker-compose.yaml"
-    ["/snand/docker/immich/docker-compose.yaml"]="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker/immich/docker-compose.yaml"
-)
+# List of Docker Compose files to download
+COMPOSE_FILES="wordpress/docker-compose.yaml immich/docker-compose.yaml"
+COMPOSE_URL_BASE="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker"
 
-for COMPOSE_FILE in "${!COMPOSE_FILES[@]}"; do
-    if [ ! -f "$COMPOSE_FILE" ]; then
-        sudo wget -P "$(dirname "$COMPOSE_FILE")" "${COMPOSE_FILES[$COMPOSE_FILE]}"
+# Download Docker Compose files
+for COMPOSE_FILE in $COMPOSE_FILES; do
+    TARGET_PATH="/snand/docker/$COMPOSE_FILE"
+    if [ ! -f "$TARGET_PATH" ]; then
+        sudo wget -P "$(dirname "$TARGET_PATH")" "$COMPOSE_URL_BASE/$COMPOSE_FILE"
         echo "Downloaded $(basename "$COMPOSE_FILE")."
     else
-        echo "$(basename "$COMPOSE_FILE") already exists in $(dirname "$COMPOSE_FILE"), skipping download."
+        echo "$(basename "$COMPOSE_FILE") already exists, skipping download."
     fi
 done
