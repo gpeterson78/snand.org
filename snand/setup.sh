@@ -24,7 +24,7 @@ for DIR in /snand/scripts /snand/docker/wordpress /snand/docker/immich; do
 done
 
 # List of scripts to download
-SCRIPTS="genenv.sh wordpress_backup.sh wordpress_restore.sh"
+SCRIPTS="genenv.sh wordpress_backup.sh wordpress_restore.sh launch.sh"
 SCRIPT_URL_BASE="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/scripts"
 
 # Download scripts
