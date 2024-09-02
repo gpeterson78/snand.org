@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # setup Script for snand.org.
 # download this script for execution with the following command:  
 # wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/setup.sh && chmod +x setup.sh
