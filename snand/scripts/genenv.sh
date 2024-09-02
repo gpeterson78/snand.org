@@ -10,8 +10,10 @@
 # last Updated: 2024-03-14
 #
 # check if .env file exists
-if [ ! -f ".env" ]; then
-    echo ".env file does not exist, creating..."
+ENV_PATH="/snand/docker/wordpress"
+
+if [ ! -f "$ENV_PATH/.env" ]; then
+    echo ".env file does not exist in $ENV_PATH, creating..."
     
     # generate random database password
     MYSQL_DATABASE_PASSWORD=$(openssl rand -base64 36)
@@ -46,14 +48,23 @@ if [ ! -f ".env" ]; then
         # the values below do not need to be changed
         echo "MYSQL_DATABASE_USER_NAME=wordpress"
         echo "WEB_SERVER_PORT=4321"
-    } > .env
+    } > "$ENV_PATH/.env"
 
 else
     echo ".env file already exists, creating a backup and moving on..."
 fi
 # backup .env file - ensure backup directory exists
-mkdir -p ./backup
-cp .env "./backup/env_$(date +%Y%m%d)"
+mkdir -p /snand/backup/wordpress
+cp "$ENV_PATH/.env" "/snand/backup/env_$(date +%Y%m%d)"
 # additional code that needs to run after this script
 echo "please run 'docker compose up -d' to start the application..."
 echo "then open a web browser to https://$WORDPRESS_URL"
+
+
+
+
+
+
+
+
+
