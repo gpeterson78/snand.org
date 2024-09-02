@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # setup Script for snand.org.
 # download this script for execution with the following command:  
 # wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/setup.sh && chmod +x setup.sh
@@ -14,8 +14,7 @@
 # Last Updated: 2024-09-02
 #
 # Create directories if they don't exist
-DIRECTORIES=("/snand/scripts" "/snand/docker/wordpress")
-for DIR in "${DIRECTORIES[@]}"; do
+for DIR in "/snand/scripts" "/snand/docker/wordpress"; do
     if [ ! -d "$DIR" ]; then
         sudo mkdir -p "$DIR"
         echo "Created $DIR directory."
@@ -24,6 +23,17 @@ for DIR in "${DIRECTORIES[@]}"; do
     fi
 done
 # Download scripts and mark them executable if they don't already exist
+for SCRIPT in "genenv.sh" "wordpress_backup.sh" "wordpress_restore.sh"; do
+    if [ ! -f "/snand/scripts/$SCRIPT" ]; then
+        sudo wget -P /snand/scripts/ "https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/scripts/$SCRIPT"
+        sudo chmod +x "/snand/scripts/$SCRIPT"
+        echo "Downloaded and made $SCRIPT executable."
+    else
+        echo "$SCRIPT already exists in /snand/scripts, skipping download."
+    fi
+done
+
+
 SCRIPTS=("genenv.sh" "wordpress_backup.sh" "wordpress_restore.sh")
 for SCRIPT in "${SCRIPTS[@]}"; do
     if [ ! -f "/snand/scripts/$SCRIPT" ]; then
@@ -35,8 +45,7 @@ for SCRIPT in "${SCRIPTS[@]}"; do
     fi
 done
 # Download docker-compose.yml files if they don't already exist
-COMPOSE_FILES=("/snand/docker/wordpress/docker-compose.yaml")
-for COMPOSE_FILE in "${COMPOSE_FILES[@]}"; do
+for COMPOSE_FILE in "/snand/docker/wordpress/docker-compose.yaml"; do
     if [ ! -f "$COMPOSE_FILE" ]; then
         sudo wget -P "$(dirname "$COMPOSE_FILE")" "https://raw.githubusercontent.com/gpeterson78/snand.org/main/$(basename "$(dirname "$COMPOSE_FILE")")/docker-compose.yaml"
         echo "Downloaded $(basename "$COMPOSE_FILE")."
