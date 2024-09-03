@@ -19,12 +19,12 @@
 #    0 2 * * * /path/to/backup_script.sh
 
 # variables
-BACKUP_PATH="/path/to/backup" # destination path for backups
+BACKUP_PATH="../backup" # destination path for backups
 WORDPRESS_CONTAINER="wordpress" # name of the WordPress Docker container
-DB_CONTAINER="mysql_container_name" # name of the MariaDB Docker container
-DB_NAME="your_database_name" # name of the WordPress database (usually 'wordpress')
-DB_USER="your_database_user" # database username (usually 'wordpress')
-DB_PASSWORD="your_database_password" # password for the database user
+DB_CONTAINER="wordpressdb" # name of the MariaDB Docker container
+DB_NAME="wordpress" # name of the WordPress database (usually 'wordpress')
+DB_USER="wordpress" # database username (usually 'wordpress')
+DB_PASSWORD="REDACTED" # password for the database user
 
 # create backup directory if it doesn't exist
 mkdir -p "$BACKUP_PATH"
