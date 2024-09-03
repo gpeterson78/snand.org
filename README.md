@@ -6,9 +6,9 @@ welcome to the official repository for snand.org, where we maintain all the nece
 ### projects list
 This repository includes the following projects (list will grow):
 
+- **snand**: the main snand repo, the official, what currently runs www.snand.org
 - **Authentik**: the fam is tired of so many logins.
 - **Immich**: because who trusts the cloud with family photos anymore.
-- **WordPress + phpMyAdmin**: blogging and pretending we understand databases.
 
 ### usage
 each directory in this repository corresponds to a specific project. Inside each directory, you will find the necessary docker-compose.yml files along with other related configuration files and instructions.
