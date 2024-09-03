@@ -7,8 +7,8 @@ welcome to the official repository for snand.org, where we maintain all the nece
 This repository includes the following projects (list will grow):
 
 - **traefik**: uses letsencrypt and cloudflare to provide certificates to my internal services.
-- **WordPress + phpMyAdmin**: runs snand.org, or will anyway, once I successfully migrate this project.
-- **Immich**: dev site anyway, if there's a spare SSD slot in this small computer it will move.
+- **WordPress + phpMyAdmin**: runs snand.org. ~~or will anyway, once I successfully migrate this project~~
+- **Immich**: not yet but likely next up.
 
 ### usage
 this assumes a fairly standard linux installation with docker.  to get started, run the following:
@@ -29,7 +29,9 @@ CLOUDFLARE_EMAIL=******
 CLOUDFLARE_DNS_API_TOKEN=******
 TRAEFIK_LOG_LEVEL=info
 
-
+...
+placeholder for more info
+...
 
 ### support
 If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.  but seriously, this comes with none and will most likely break something.
