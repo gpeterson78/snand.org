@@ -11,7 +11,7 @@
 #
 # this is hugely work in progress and I'm sure it is essentially worst practice.
 #
-# Last Updated: 2024-09-02
+# Last Updated: 2024-09-05
 #
 # Create directories if they don't exist
 for DIR in /snand/scripts /snand/docker/wordpress /snand/docker/immich; do
@@ -24,7 +24,7 @@ for DIR in /snand/scripts /snand/docker/wordpress /snand/docker/immich; do
 done
 
 # List of scripts to download
-SCRIPTS="genenv.sh wordpress_backup.sh wordpress_restore.sh launch.sh"
+SCRIPTS="genenv.sh snandpress_backup.sh sandpress_restore.sh snandich_backup.sh snandich_restore.sh launch.sh" #2024-09-05 added immich and renamed scripts
 SCRIPT_URL_BASE="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/scripts"
 
 # Download scripts
