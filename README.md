@@ -7,7 +7,7 @@ welcome to the official repository for snand.org, where we maintain all the nece
 This repository includes the following projects (list will grow):
 
 - **snand**: the main snand repo, the official, what currently runs www.snand.org
-- **Authentik**: the fam is tired of so many logins.
+- **Authentik**: ~the fam is tired of so many logins.~ - not presently operational.
 - **Immich**: because who trusts the cloud with family photos anymore.
 
 ### usage

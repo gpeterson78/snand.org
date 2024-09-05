@@ -1,9 +1,9 @@
 ### Snand
 currently running in snand's "hosting model"
-- authentik
+- ~authentik~
 - immich
 - wordpress
-- wordpress dev
+- ~wordpress dev~
 
 ### ToDo
 currently running old school mode or some unknown state but in our infrastructure
