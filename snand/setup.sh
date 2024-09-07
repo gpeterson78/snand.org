@@ -39,7 +39,7 @@ for SCRIPT in $SCRIPTS; do
 done
 
 # List of Docker Compose files to download
-COMPOSE_FILES="traefik/docker-compose.yaml wordpress/docker-compose.yaml immich/docker-compose.yaml"
+COMPOSE_FILES="traefik/docker-compose.yaml wordpress/docker-compose.yaml immich/docker-compose.yaml cloudflare/docker-compose.yaml"
 COMPOSE_URL_BASE="https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/docker"
 
 # Download Docker Compose files

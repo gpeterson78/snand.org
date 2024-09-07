@@ -1,26 +1,33 @@
 #!/bin/sh
-# launch-docker.sh
-# Script to launch Docker Compose projects by pulling the latest images and bringing up the services.
+# launch.sh
+# script to check if snand projects are running.  if running, pull new versions and update; otherwise, launch the project.
 #
 # Author: Grady Peterson
 # License: MIT License
 #
-# Define the paths to your Docker Compose projects
-PROJECTS="/snand/docker/wordpress /snand/docker/immich /snand/docker/traefik"
+# Define the root directory where Docker projects live
+DOCKER_ROOT="/snand/docker"
 
-# Iterate over each project and launch it
-for PROJECT in $PROJECTS; do
+# Iterate over each directory in the root and check for docker-compose.yaml
+for PROJECT in "$DOCKER_ROOT"/*; do
     if [ -f "$PROJECT/docker-compose.yaml" ]; then
-        echo "Launching Docker Compose project in $PROJECT"
+        echo "Checking Docker Compose project in $PROJECT"
+
         cd "$PROJECT"
-        
-        # Pull the latest images
-        docker compose pull
-        
-        # Start the services in detached mode
-        docker compose up -d
-        
-        echo "Docker Compose project in $PROJECT launched successfully."
+
+        # Check if the project is already running
+        RUNNING=$(docker compose ps -q)
+
+        if [ -n "$RUNNING" ]; then
+            echo "Project is already running. Pulling the latest images and updating..."
+            docker compose pull
+            docker compose up -d
+            echo "Project in $PROJECT updated successfully."
+        else
+            echo "Project is not running. Launching..."
+            docker compose up -d
+            echo "Project in $PROJECT launched successfully."
+        fi
     else
         echo "No docker-compose.yaml found in $PROJECT, skipping."
     fi
