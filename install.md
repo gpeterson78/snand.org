@@ -177,4 +177,4 @@ For more examples and ideas, visit:
  sudo apt install curl
  curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 ```
-
+sudo apt install rsync
