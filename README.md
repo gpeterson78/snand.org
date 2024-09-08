@@ -6,15 +6,35 @@ welcome to the official repository for snand.org, where we maintain all the nece
 ### projects list
 This repository includes the following projects (list will grow):
 
-- **snand**: the main snand repo, the official, what currently runs www.snand.org
-- **Authentik**: ~the fam is tired of so many logins.~ - not presently operational.
-- **Immich**: because who trusts the cloud with family photos anymore.
+- **traefik**: uses letsencrypt and cloudflare to provide certificates to my internal services.
+- **WordPress + phpMyAdmin**: runs snand.org. ~~or will anyway, once I successfully migrate this project~~
+- **Immich**: not yet but likely next up.
 
 ### usage
-each directory in this repository corresponds to a specific project. Inside each directory, you will find the necessary docker-compose.yml files along with other related configuration files and instructions.
+this assumes a fairly standard linux installation with docker.  to get started, run the following:
+```sh
+wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/setup.sh && chmod +x setup.sh
+```
+this will download the setup script and mark it executable.
+
+upon execution, this script will create a directory in the root called /snand.  it will then download the necessary scripts, compose files and so forth to build the junk that runs snand.org.
+
+next you must run the /snand/scripts/genenv.sh which will generate the necessary .env files for each application using defaults.  currently those defaults are a mixture of stuff I accidentally left in there but someday it will work.  for now though, there's a wee bit of editing that needs to be done.
+
+traefik:
+edit the /snand/docker/traefik/.env file, provide the following (eventually I'll explain all these):
+LETSENCRYPT_EMAIL=******
+LETSENCRYPT_PATH=./letsencrypt
+CLOUDFLARE_EMAIL=******
+CLOUDFLARE_DNS_API_TOKEN=******
+TRAEFIK_LOG_LEVEL=info
+
+...
+placeholder for more info
+...
 
 ### support
-If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.
+If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.  but seriously, this comes with none and will most likely break something.
 
 ### license
 This repository and its contents are provided for private use and educational purposes only. Please respect the licenses of the individual projects included within.
