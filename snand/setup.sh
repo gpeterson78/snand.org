@@ -9,7 +9,7 @@
 # feel free to use and modify this script for any purpose.
 # this script comes with no warranty or guarantees.
 #
-# this is hugely work in progress and I'm sure it is essentially worst practice.
+# this is hugely work in progress and it is essentially worst practice.
 #
 # Last Updated: 2024-09-05
 #
