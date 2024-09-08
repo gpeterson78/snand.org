@@ -1,5 +1,5 @@
 #!/bin/sh
-# launch.sh
+#
 # script to check if snand projects are running.  if running, pull new versions and update; otherwise, launch the project.
 #
 # Author: Grady Peterson
