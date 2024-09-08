@@ -44,7 +44,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.wordpressphp.tls=true
-      - traefik.http.routers.wordpressphp.tls.certresolver=pcloudflare-staging
+      - traefik.http.routers.wordpressphp.tls.certresolver=cloudflare-staging
       - traefik.http.routers.wordpressphp.entrypoints=websecure
       - traefik.http.routers.wordpressphp.rule=Host(`${MYPHPADMIN_URL}`)
     networks:

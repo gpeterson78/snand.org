@@ -11,27 +11,16 @@ This repository includes the following projects (list will grow):
 - **Immich**: not yet but likely next up.
 
 ### usage
-this assumes a fairly standard linux installation with docker.  to get started, run the following:
-```sh
-wget https://raw.githubusercontent.com/gpeterson78/snand.org/main/snand/setup.sh && chmod +x setup.sh
+this assumes a fairly standard linux installation with docker.  to get started, clone this repo to the directory you want snand installed:
+```bash
+git clone https://github.com/gpeterson78/snand.org.git .
 ```
-this will download the setup script and mark it executable.
+mark the setup script executable:
+``bash
+[sudo] chmod +x ./snandup.sh
+[sudo] ./snandup.sh
 
-upon execution, this script will create a directory in the root called /snand.  it will then download the necessary scripts, compose files and so forth to build the junk that runs snand.org.
-
-next you must run the /snand/scripts/genenv.sh which will generate the necessary .env files for each application using defaults.  currently those defaults are a mixture of stuff I accidentally left in there but someday it will work.  for now though, there's a wee bit of editing that needs to be done.
-
-traefik:
-edit the /snand/docker/traefik/.env file, provide the following (eventually I'll explain all these):
-LETSENCRYPT_EMAIL=******
-LETSENCRYPT_PATH=./letsencrypt
-CLOUDFLARE_EMAIL=******
-CLOUDFLARE_DNS_API_TOKEN=******
-TRAEFIK_LOG_LEVEL=info
-
-...
-placeholder for more info
-...
+upon execution, this script will look for and create any missing .env files, then looks for and launches any docker compose project within the directory.  this can also act as a restart script.
 
 ### support
 If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.  but seriously, this comes with none and will most likely break something.
