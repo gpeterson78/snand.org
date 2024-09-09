@@ -11,7 +11,7 @@ This repository includes the following projects (list will grow):
 - **Immich**: not yet but likely next up.
 
 ### usage
-this assumes a fairly standard linux installation with docker.  to get started, clone this repo to the directory you want snand installed:
+this is the setup and update script for snand.  this setup assumes a vanilla linux install with docker to operate.  to get started, clone this repo to the directory you want snand installed:
 ```bash
 git clone https://github.com/gpeterson78/snand.org.git .
 ```
@@ -20,7 +20,7 @@ mark the setup script executable:
 [sudo] chmod +x ./snandup.sh
 [sudo] ./snandup.sh
 ```
-upon execution, this script will look for and create any missing .env files, then looks for and launches any docker compose project within the directory.  this can also act as a restart script.
+upon execution, this script will look for and create any missing .env files, then looks for and launches any docker compose project within the directory.
 
 ### support
 If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.  but seriously, this comes with none and will most likely break something.
