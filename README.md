@@ -11,7 +11,7 @@ This repository includes the following projects (list will grow):
 - **Immich**: work in progress
 
 ### usage
-this is the setup and update script for snand.  this setup assumes a vanilla linux install with docker to operate.  to get started, clone this repo to the directory you want snand installed:
+this is the setup and update script for snand.  this setup assumes a vanilla linux install with git and docker to operate.  to get started, clone this repo to the directory you want snand installed:
 ```bash
 git clone https://github.com/gpeterson78/snand.org.git .
 ```

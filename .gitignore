@@ -1,5 +1,6 @@
 # Ignore sensitive data files
 install.md
+temp
 
 # Ignore local environment configuration
 .env

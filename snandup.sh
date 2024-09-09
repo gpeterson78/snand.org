@@ -1,14 +1,42 @@
 #!/bin/sh
-# snand.org setup and launch script.
+# snandup script for snand.org
 #
-# author: Grady Peterson
-# website: https://snand.org
-# license: MIT License
-# feel free to use and modify this script for any purpose.
-# this script comes with no warranty or guarantees.
+# author: grady peterson
+# version: 1.2
+# last updated: 2024-09-10
 #
-# last Updated: 2024-09-08
+# description:
+# this is the install and update script for snand.org, responsible for checking docker compose projects, pulling updates from git (optional), and launching the services.  
+# it pulls the latest docker images for any running projects and brings up any that are stopped.  
+# the script is designed to be run manually but could be scheduled via cron if needed.  
+# it logs minimal output, unless run with the --verbose flag, in which case it gives you all the juicy details.  
+# git pull is also optional, run with --git-pull to sync from the repo first and back up any old files before overwriting.
 #
+# usage:
+# - manual run without pulling git:  
+#   ./snandup.sh  
+# 
+# - manual run with git pull:  
+#   ./snandup.sh --git-pull  
+# 
+# - run in verbose mode:  
+#   ./snandup.sh --verbose  
+# 
+# the script does the following:  
+# - backs up existing files before overwriting with the latest version from git  
+# - checks for docker-compose.yaml files in the docker root directory  
+# - pulls latest images for running services  
+# - launches stopped services  
+# - (optional) pulls the latest changes from the repo if --git-pull is used
+#
+# enhancements (coming soon, probably):
+# - **auto-recompose**: watch for changes in docker-compose files and automatically recompose services  
+# - **auto-notify**: send an alert if any service fails to launch or update  
+# - **better logging**: more detailed logs for troubleshooting or cron-based runs  
+#
+# license:
+# MIT License - use it, change it, share it, but don’t call us if it breaks
+
 # ------------------------------------------
 # Verbose mode flag
 # ------------------------------------------
@@ -28,6 +56,75 @@ log() {
         echo "$1" >&3
     fi
 }
+
+# ------------------------------------------
+# Backup and Overwrite Handling
+# ------------------------------------------
+log "Backing up existing files before updating if they exist..."
+
+TIMESTAMP=$(date +%Y%m%d%H%M%S)
+BACKUP_DIR="./backup"
+TEMP_BACKUP_DIR="$BACKUP_DIR/temp_backup_$TIMESTAMP"
+FINAL_BACKUP_FILE="$BACKUP_DIR/snand_config_$TIMESTAMP.tar.gz"
+GIT_TEMP_REPO_DIR="/tmp/snand-repo"  # Temporary directory for git files
+
+# Create backup directories if they don't exist
+mkdir -p "$BACKUP_DIR"
+mkdir -p "$TEMP_BACKUP_DIR"
+
+# ------------------------------------------
+# Optional Git Clone/Pull from Remote
+# ------------------------------------------
+if [ "$1" = "--git-pull" ] || [ "$2" = "--git-pull" ]; then
+    echo "Pulling latest changes from remote GitHub repository..." >&3
+
+    # If the repo already exists in the temp directory, pull the latest changes
+    if [ -d "$GIT_TEMP_REPO_DIR/.git" ]; then
+        cd "$GIT_TEMP_REPO_DIR" || exit 1
+        git pull origin main
+        if [ $? -ne 0 ]; then
+            echo "Error: Git pull failed." >&3
+            exit 1
+        fi
+        cd - >/dev/null
+        echo "Git pull successful." >&3
+    else
+        # If the temp repo directory doesn't exist, clone it fresh
+        git clone https://github.com/gpeterson78/snand.org.git "$GIT_TEMP_REPO_DIR"
+        if [ $? -ne 0 ]; then
+            echo "Error: Git clone failed." >&3
+            exit 1
+        fi
+        echo "Git clone successful." >&3
+    fi
+
+    # Check for each file in the git temp repo and back it up if it exists in the canonical location
+    while IFS= read -r -d '' FILE_PATH; do
+        RELATIVE_PATH=${FILE_PATH#"$GIT_TEMP_REPO_DIR/"}  # Strip the temp repo prefix to get relative path
+
+        # Check if file exists in canonical location
+        if [ -f "$RELATIVE_PATH" ]; then
+            # Backup the original file
+            log "Backing up $RELATIVE_PATH to $TEMP_BACKUP_DIR"
+            cp "$RELATIVE_PATH" "$TEMP_BACKUP_DIR"
+        fi
+
+        # Copy the new file from Git repo to canonical location
+        log "Copying $RELATIVE_PATH to canonical location"
+        cp "$FILE_PATH" "$RELATIVE_PATH"
+
+    done < <(find "$GIT_TEMP_REPO_DIR" -type f -print0)
+
+    # Tar up the backed-up files if any exist
+    if [ "$(ls -A "$TEMP_BACKUP_DIR")" ]; then
+        tar -czf "$FINAL_BACKUP_FILE" -C "$TEMP_BACKUP_DIR" .
+        log "Backup created: $FINAL_BACKUP_FILE"
+    fi
+
+    # Cleanup the temporary backup directory
+    rm -rf "$TEMP_BACKUP_DIR"
+    log "Temporary backup files cleaned up."
+fi
 
 # ------------------------------------------
 # Environment Variables
