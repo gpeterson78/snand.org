@@ -1,5 +1,5 @@
 # Ignore sensitive data files
-hardening.md
+install.md
 
 # Ignore local environment configuration
 .env
