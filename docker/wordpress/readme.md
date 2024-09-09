@@ -4,7 +4,7 @@ this repository contains the **wordpress docker compose project** powering [snan
 
 ## introduction
 
-this project is currently live, but still under active development—expect things to be *fully broken* at any moment.  
+this project is currently live, but still under active development.  expect things to be *fully broken* at any moment.  
 
 the foundation is shaping up, but various mucking around is still in progress.  next steps include fixing permission issues and validating a working backup, restore, and migration method.  
 
