@@ -16,10 +16,10 @@ this assumes a fairly standard linux installation with docker.  to get started, 
 git clone https://github.com/gpeterson78/snand.org.git .
 ```
 mark the setup script executable:
-``bash
+```bash
 [sudo] chmod +x ./snandup.sh
 [sudo] ./snandup.sh
-
+```
 upon execution, this script will look for and create any missing .env files, then looks for and launches any docker compose project within the directory.  this can also act as a restart script.
 
 ### support

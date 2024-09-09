@@ -25,7 +25,7 @@ fi
 # Function for verbose logging (optional extra logs)
 log() {
     if [ "$VERBOSE" -eq 1 ]; then
-        echo "$1"
+        echo "$1" >&3
     fi
 }
 
@@ -80,15 +80,15 @@ generate_env_file() {
     ENV_FILE="$PROJECT_PATH/.env"
 
     if [ ! -f "$ENV_FILE" ]; then
-        echo "Creating $PROJECT_NAME .env file..."
+        echo "Creating $PROJECT_NAME .env file..." >&3
         echo "$ENV_VARS" > "$ENV_FILE"
     else
-        echo "$PROJECT_NAME .env file already exists, creating a backup."
+        echo "$PROJECT_NAME .env file already exists, creating a backup." >&3
     fi
 
     mkdir -p "$BACKUP_PATH/$PROJECT_NAME"
     cp "$ENV_FILE" "$BACKUP_PATH/$PROJECT_NAME/${PROJECT_NAME}_env_$(date +%Y%m%d%H%M%S)" 2>/dev/null
-    log "$PROJECT_NAME .env file backed up."
+    echo "$PROJECT_NAME .env file backed up." >&3
 }
 
 # ------------------------------------------
@@ -139,18 +139,19 @@ generate_env_file "traefik" "$TRAEFIK_ENV_VARS"
 # ------------------------------------------
 for PROJECT in "$DOCKER_ROOT"/*; do
     if [ -f "$PROJECT/docker-compose.yaml" ]; then
-        echo "Checking Docker Compose project in $PROJECT"
+        PROJECT_NAME=$(basename "$PROJECT")
+        echo "Checking $PROJECT_NAME in $PROJECT" >&3
 
         cd "$PROJECT"
 
         RUNNING=$(docker compose ps -q)
 
         if [ -n "$RUNNING" ]; then
-            echo "Project is running. Pulling latest images and updating..."
+            echo "$PROJECT_NAME is running. Pulling latest images and updating..." >&3
             docker compose pull
             docker compose up -d
         else
-            echo "Project is not running. Launching..."
+            echo "$PROJECT_NAME is not running. Launching..." >&3
             docker compose up -d
         fi
 
@@ -164,11 +165,11 @@ done
 # Completion Messages
 # ------------------------------------------
 
-echo "Setup and launch complete."
-echo "Open your web browser to access services:"
-echo "WordPress: https://$WORDPRESS_URL"
-echo "Immich: https://$IMMICH_URL"
-echo "Traefik dashboard: https://127.0.0.1:8080"
+echo "Setup and launch complete." >&3
+echo "Open your web browser to access services:" >&3
+echo "WordPress: https://$WORDPRESS_URL" >&3
+echo "Immich: https://$IMMICH_URL" >&3
+echo "Traefik dashboard: https://127.0.0.1:8080" >&3
 
 # Disable verbose mode after the script runs (if it was enabled)
 if [ "$VERBOSE" -eq 1 ]; then
