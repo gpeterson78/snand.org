@@ -7,8 +7,8 @@ welcome to the official repository for snand.org, where we maintain all the nece
 This repository includes the following projects (list will grow):
 
 - **traefik**: uses letsencrypt and cloudflare to provide certificates to my internal services.
-- **WordPress + phpMyAdmin**: runs snand.org. ~~or will anyway, once I successfully migrate this project~~
-- **Immich**: not yet but likely next up.
+- **WordPress + phpMyAdmin**: current config of snand.org's  wordpress site
+- **Immich**: work in progress
 
 ### usage
 this is the setup and update script for snand.  this setup assumes a vanilla linux install with docker to operate.  to get started, clone this repo to the directory you want snand installed:
