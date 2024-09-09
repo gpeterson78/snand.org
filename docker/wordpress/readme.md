@@ -1,6 +1,6 @@
 # snand wordpress docker compose project (work in progress)
 
-this repository contains the **wordpress docker compose project** powering [snand.org](https://snand.org).
+this repository contains the **wordpress docker compose project** powering [snand.org](https://www.snand.org).
 
 ## introduction
 
