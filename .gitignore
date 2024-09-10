@@ -1,6 +1,7 @@
 # Ignore sensitive data files
 install.md
 temp
+snand.config
 
 # Ignore local environment configuration
 .env
