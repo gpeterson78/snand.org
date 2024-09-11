@@ -2,31 +2,42 @@
 # snandup script for snand.org
 #
 # author: grady peterson
-# version: 1.3
+# version: 1.4
 # last updated: 2024-09-10
 #
 # description:
-# this script is responsible for checking docker compose projects, pulling updates from git (optional), generating .env files, backing up existing files, and launching the services.
+# this script is responsible for starting and updating snand.
+# it will check docker compose projects, pulling updates from git (optional),
+# generating .env files (if they don't exist), backing up existing files, and launching the services.
 # it pulls the latest docker images for any running projects and brings up any that are stopped.  
 # git pull is optional, use --git-pull to sync from the repo first and back up any old files before overwriting.
 #
 # usage:
-# - ./snandup.sh          # regular run
+# - ./snandup.sh          # regular run (starts services)
 # - ./snandup.sh --git-pull # run with git pull
 # - ./snandup.sh --verbose  # verbose mode
+# - ./snandup.sh --update   # perform docker compose pull and start services
 #
 # license:
-# MIT License
+# MIT License - it's all yours, just don't whine when it breaks.
 
 # ------------------------------------------
 # Verbose mode flag
 # ------------------------------------------
 VERBOSE=0
+UPDATE=0
 
-if [ "$1" = "--verbose" ]; then
-    VERBOSE=1
-    set -x  # Enable verbose mode
-fi
+for arg in "$@"; do
+    case $arg in
+        --verbose)
+            VERBOSE=1
+            set -x  # Enable verbose mode
+            ;;
+        --update)
+            UPDATE=1  # Set update flag for docker compose pull
+            ;;
+    esac
+done
 
 # Function for verbose logging
 log() {
@@ -107,7 +118,7 @@ if [ "$1" = "--git-pull" ] || [ "$2" = "--git-pull" ]; then
         cp "$FILE_PATH" "$RELATIVE_PATH"
     done
 
-    # Copy files from ./scripts/
+    # Copy and set executable permissions for scripts
     find "$GIT_TEMP_REPO_DIR/scripts" -type f | while read -r FILE_PATH; do
         RELATIVE_PATH=${FILE_PATH#"$GIT_TEMP_REPO_DIR/"}  # Strip the temp repo prefix to get relative path
 
@@ -121,6 +132,10 @@ if [ "$1" = "--git-pull" ] || [ "$2" = "--git-pull" ]; then
         # Copy the new file from Git repo to canonical location
         log "Copying $RELATIVE_PATH to canonical location"
         cp "$FILE_PATH" "$RELATIVE_PATH"
+
+        # Mark script as executable
+        log "Setting executable permission for $RELATIVE_PATH"
+        chmod +x "$RELATIVE_PATH"
     done
 
     # Tar up the backed-up files if any exist
@@ -135,18 +150,23 @@ if [ "$1" = "--git-pull" ] || [ "$2" = "--git-pull" ]; then
 fi
 
 # ------------------------------------------
-# Generate .env Files Based on Project Prefixes
+# Generate .env Files Based on Project Prefixes (Only if not already present)
 # ------------------------------------------
 generate_env_file() {
     PROJECT_NAME=$1
     ENV_FILE="./docker/$PROJECT_NAME/.env"
     
-    log "Generating .env for $PROJECT_NAME at $ENV_FILE"
-    
-    # Filter the variables that belong to the project (by prefix)
-    env | grep "^${PROJECT_NAME^^}_" | sed "s/^${PROJECT_NAME^^}_//" > "$ENV_FILE"
-
-    log "$PROJECT_NAME .env file created."
+    # Only generate the .env file if it doesn't exist
+    if [ ! -f "$ENV_FILE" ]; then
+        log "Generating .env for $PROJECT_NAME at $ENV_FILE"
+        
+        # Filter the variables that belong to the project (by prefix)
+        env | grep "^${PROJECT_NAME^^}_" | sed "s/^${PROJECT_NAME^^}_//" > "$ENV_FILE"
+        
+        log "$PROJECT_NAME .env file created."
+    else
+        log "$ENV_FILE already exists. Skipping generation."
+    fi
 }
 
 # Generate .env files for each project
@@ -160,20 +180,17 @@ generate_env_file "traefik"
 for PROJECT in "$DOCKER_ROOT"/*; do
     if [ -f "$PROJECT/docker-compose.yaml" ]; then
         PROJECT_NAME=$(basename "$PROJECT")
-        log "Checking $PROJECT_NAME in $PROJECT"
+        log "Processing $PROJECT_NAME in $PROJECT"
 
         cd "$PROJECT"
 
-        RUNNING=$(docker compose ps -q)
-
-        if [ -n "$RUNNING" ]; then
-            log "$PROJECT_NAME is running. Pulling latest images and updating..."
+        if [ "$UPDATE" -eq 1 ]; then
+            log "Pulling latest images for $PROJECT_NAME..."
             docker compose pull
-            docker compose up -d
-        else
-            log "$PROJECT_NAME is not running. Launching..."
-            docker compose up -d
         fi
+
+        log "Starting or updating $PROJECT_NAME..."
+        docker compose up -d
 
         cd - >/dev/null
     else
