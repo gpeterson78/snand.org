@@ -2,8 +2,8 @@
 # snandup script for snand.org
 #
 # author: grady peterson
-# version: 1.4
-# last updated: 2024-09-10
+# version: 1
+# last updated: 2024-10-06
 #
 # description:
 # this script is responsible for starting and updating snand.
@@ -17,9 +17,10 @@
 # - ./snandup.sh --git-pull # run with git pull
 # - ./snandup.sh --verbose  # verbose mode
 # - ./snandup.sh --update   # perform docker compose pull and start services
+# note to self - add a --help flag
 #
 # license:
-# MIT License - it's all yours, just don't whine when it breaks.
+# MIT License - go nuts, you probably are if you use this.
 
 # ------------------------------------------
 # Verbose mode flag
@@ -67,7 +68,7 @@ log "Backing up existing files before updating if they exist..."
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
 TEMP_BACKUP_DIR="$BACKUP_PATH/temp_backup_$TIMESTAMP"
 FINAL_BACKUP_FILE="$BACKUP_PATH/snand_config_$TIMESTAMP.tar.gz"
-GIT_TEMP_REPO_DIR="/tmp/snand-repo"  # Temporary directory for git files
+GIT_TEMP_REPO_DIR="/tmp/snand-repo"  # note to self - clean this up
 
 # Create backup directories if they don't exist
 mkdir -p "$BACKUP_PATH"
@@ -201,11 +202,11 @@ done
 # ------------------------------------------
 # Completion Messages
 # ------------------------------------------
-log "Setup and launch complete."
-log "Open your web browser to access services:"
+log "setup and launch complete."
+log "open your web browser to access services:"
 log "WordPress: https://$WORDPRESS_URL"
-log "Immich: https://$IMMICH_URL"
-log "Traefik dashboard: https://127.0.0.1:8080"
+log "immich: https://$IMMICH_URL"
+log "traefik dashboard: https://127.0.0.1:8080"
 
 # Disable verbose mode after the script runs (if it was enabled)
 if [ "$VERBOSE" -eq 1 ]; then
