@@ -1,8 +1,10 @@
 #!/bin/sh
 # restore script for snand's wordpress site
 #
-# version: 1.3  
-# last updated: 2024-09-10
+# author: Grady Peterson
+# version: 1.0  
+# last updated: 2024-10-13
+# license: MIT License
 #
 # description:
 # this script restores the wordpress site and its database from a single backup tar.gz archive  

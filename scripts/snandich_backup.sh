@@ -1,14 +1,12 @@
 #!/bin/sh
-#
-# Author: Grady Peterson
-# Website: https://snand.org
-# License: MIT License
-# This script comes with no warranty or guarantees.
-#
-# Last Updated: 2024-09-03
-#
 # Immich backup script for snand.org
 #
+# author: Grady Peterson
+# version: 1.0  
+# last updated: 2024-10-13
+# license: MIT License
+#
+# description:
 # This script creates a backup with today's date in the specified backup folder.
 # It retrieves database credentials and other configurations from the Immich .env file.
 # It backs up the PostgreSQL database and removes backups older than a user-defined number of days.

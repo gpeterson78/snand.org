@@ -1,9 +1,10 @@
 #!/bin/sh
 # backup script for snand wordpress
 #
-# author: grady peterson
+# author: Grady Peterson
 # version: 1.0  
-# last updated: 2024-09-10
+# last updated: 2024-10-13
+# license: MIT License
 #
 # description:
 # this script creates backups for snand's wordpress site, including wordpress files and the mariadb database . 
@@ -26,9 +27,6 @@
 # - **separate content and db backups**: db backed up daily, files backed up weekly  
 # - **auto-prune old backups**: clean up old backups after X days or keep only the last Y backups  
 # - **notifications**: get alerts when a backup succeeds or fails  
-#
-# license:
-# MIT License - use it, change it, share it, just don’t blame us if something goes wrong
 
 # Define the directory where the script is located
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

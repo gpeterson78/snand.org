@@ -1,14 +1,12 @@
 #!/bin/sh
-#
-# Author: Grady Peterson
-# Website: https://snand.org
-# License: MIT License
-# This script comes with no warranty or guarantees.
-#
-# Last Updated: 2024-09-03
-#
 # Immich restore script for snand.org
 #
+# author: Grady Peterson
+# version: 1.0  
+# last updated: 2024-10-13
+# license: MIT License
+#
+# description:
 # This script restores the Immich database and uploads data.
 # It restores the database from the immich_db_dump.sql.gz file in the /snand/scripts directory.
 # It restores upload data from /snand/backup/immich/library and /snand/backup/immich/upload.

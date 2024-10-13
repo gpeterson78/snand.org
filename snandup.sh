@@ -1,9 +1,10 @@
 #!/bin/sh
 # snandup script for snand.org
 #
-# author: grady peterson
-# version: 1
-# last updated: 2024-10-06
+# author: Grady Peterson
+# version: 1.0  
+# last updated: 2024-10-13
+# license: MIT License
 #
 # description:
 # this script is responsible for starting and updating snand.

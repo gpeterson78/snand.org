@@ -1,17 +1,18 @@
 # the snand foundation
 *a place for snand*
+*version 1.0*
 ---
-welcome to the official repository for snand.org, where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects. Projects here are under *very* active development and should not be used by anyone (including me) but be my guest.
+welcome to the official repository for snand.org, where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects. projects here are under *very* active development and should not be used by anyone (including me), but be my guest.
 
 ### projects list
 This repository includes the following projects (list will grow):
 
 - **traefik**: uses letsencrypt and cloudflare to provide certificates to my internal services.
 - **WordPress + phpMyAdmin**: current config of snand.org's  wordpress site
-- **Immich**: work in progress
+- **Immich**: Immich is a google photos type site that I use to backup and share our family photos.
 
 ### usage
-this is the setup and update script for snand.  this setup assumes a vanilla linux install with git and docker to operate.  to get started, clone this repo to the directory you want snand installed:
+clone this repo to a folder (I use /snand and I do try to parametarize all the paths where possible, it's likely I have this path hardcoded accidentally). then mark the snandup.sh scrip as executable and launch it (this setup assumes a vanilla linux install with git and docker).  to get started:
 ```bash
 git clone https://github.com/gpeterson78/snand.org.git .
 ```

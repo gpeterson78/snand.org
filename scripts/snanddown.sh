@@ -1,9 +1,10 @@
 #!/bin/sh
-#
 # script to bring down snand projects safely.
 #
-# Author: Grady Peterson
-# License: MIT License
+# author: Grady Peterson
+# version: 1.0  
+# last updated: 2024-10-13
+# license: MIT License
 #
 # Path to Docker projects
 DOCKER_PROJECTS_PATH="/snand/docker"
