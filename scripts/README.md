@@ -1,6 +1,5 @@
 # the snand foundation
 *a place for snand*
-*version 1.0*
 ---
 ### what is this
 it is borderline negligent for me to put this in public.

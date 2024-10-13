@@ -1,5 +1,5 @@
 # the snand foundation
-*a place for snand*
+## *a place for snand*
 *version 1.0*
 ---
 welcome to the official repository for snand.org, where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects. projects here are under *very* active development and should not be used by anyone (including me), but be my guest.
