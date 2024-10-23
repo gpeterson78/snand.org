@@ -2,10 +2,10 @@
 
 ## the snand foundation - *a place for snand*
 
-**license:** MIT
-**address:** [https://www.snand.org](https://www.snand.org)
-**version** 1.0a
-**release date:** 10-22-2024
+**license:** MIT  
+**address:** [https://www.snand.org](https://www.snand.org)  
+**version:** 1.0a  
+**release date:** 10-22-2024  
 
 ---
 
