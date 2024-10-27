@@ -5,6 +5,7 @@ snand.config
 
 # Ignore local environment configuration
 .env
+/.obsidian/**
 
 # Additionally, ignore common file types that should not be committed
 *.log

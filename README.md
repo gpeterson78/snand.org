@@ -63,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## version 1.1
 
 - **versioning** will all be done in this file from now on, it's pulled from individual scripts.
-- got letsencrypt working, I think.
+- got **letsencrypt** working, ~~I think.~~ confirmed.  I now have secure hosting internally and externally.
 
 ### version 1.0a
 
