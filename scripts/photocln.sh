@@ -2,8 +2,6 @@
 # script to move photos from folders named like 01-01-2001 (MM-DD-YYYY) to folders named MM in the current directory
 #
 # author: Grady Peterson
-# version: 1.0  
-# last updated: 2024-10-13
 # license: MIT License
 #
 # description:

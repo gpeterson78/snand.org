@@ -1,9 +1,7 @@
 #!/bin/sh
 # snandup script for snand.org
 #
-# author: Grady Peterson
-# version: 1.0  
-# last updated: 2024-10-13
+# author: Grady Peterson 
 # license: MIT License
 #
 # description:

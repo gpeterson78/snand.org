@@ -4,7 +4,7 @@
 
 **license:** MIT  
 **address:** [www.snand.org](https://www.snand.org)  
-**version:** 1.0a  
+**version:** 1.1  
 **release date:** 10-22-2024  
 
 ---
@@ -60,7 +60,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## release Notes
 
+## version 1.1
+
+- **versioning** will all be done in this file from now on, it's pulled from individual scripts.
+- got letsencrypt working, I think.
+
 ### version 1.0a
 
 - **cleaned up this file.**  If I'm versioning and keeping comments, I'd better get the format going now.
 - *Future revision necessary* - need to figure out versioning system, likely in snandup script (this is ground up after all).
+
+### version 1.0
+
+- **initial release** - lots to go from here, but gotta start somewhere.

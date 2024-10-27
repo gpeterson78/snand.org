@@ -2,8 +2,6 @@
 # Immich backup script for snand.org
 #
 # author: Grady Peterson
-# version: 1.0  
-# last updated: 2024-10-13
 # license: MIT License
 #
 # description:
