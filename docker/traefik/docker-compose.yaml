@@ -36,4 +36,4 @@ services:
 networks:
   traefik-network:
     driver: bridge
-    externa;: true
+    external: true
