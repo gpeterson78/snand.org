@@ -60,10 +60,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## release Notes
 
-## version 1.1
+## version 1.1(a)
 
 - **versioning** will all be done in this file from now on, it's pulled from individual scripts.
 - got **letsencrypt** working, ~~I think.~~ confirmed.  I now have secure hosting internally and externally.
+- 1.1a - fixed traefik external network.  full reload would result in extra traefik_network_network but external seems to be working.
 
 ### version 1.0a
 
