@@ -1,0 +1,46 @@
+# roles/dnans_wordpress/tasks/main.yaml
+---
+
+- name: Ensure WordPress Docker Compose directory exists
+  file:
+    path: "{{ docker_projects_path }}/wordpress"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Check if .env file exists
+  stat:
+    path: "{{ docker_projects_path }}/wordpress/.env"
+  register: env_file_stat
+
+- name: Debug password (optional)
+  debug:
+    msg:
+      - "WordPress DB Password: {{ database_password }}"
+      - "WordPress DB Root Password: {{ database_root_password }}"
+
+- name: Generate or update .env file for WordPress
+  template:
+    src: .env.j2
+    dest: "{{ docker_projects_path }}/wordpress/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  when: not env_file_stat.stat.exists or overwrite_env | default(false)
+
+- name: generate WordPress Docker Compose file
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ docker_projects_path }}/wordpress/docker-compose.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Launch WordPress with Docker Compose
+  community.docker.docker_compose:
+    project_src: "{{ docker_projects_path }}/wordpress"
+    state: present
+    pull: yes
+    recreate: smart
+    remove_orphans: yes

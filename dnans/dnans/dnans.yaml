@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  pre_tasks:
+    - name: Ensure the vault exists and is properly configured
+      include_role:
+        name: setup_vault
+
+  tasks:
+    - name: Proceed with other tasks
+      debug:
+        msg: "Vault setup complete. Continuing with the playbook..."
+
+
+- name: Configure dnans server
+  hosts: servers
+  become: yes
+  vars_files:
+    - ./group_vars/vault.yaml
+  roles:
+    - dnans_host
+    - dnans_smb
+    - dnans_docker
+    - dnans_wordpress
+    - dnans_immich

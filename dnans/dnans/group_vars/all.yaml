@@ -1,0 +1,39 @@
+# group_vars/all.yaml
+
+# host configuration
+hostname: "dnans"
+ansible_user: "gradyp"
+project_path: "/dnans" # main project installation folder
+
+# UUID for Mount (Optional)
+mount_uuid: "d13e0f82-9b0f-4049-90ac-06df6697e82a" #optional
+
+# SMB Configuration
+smb_shared_path: "{{ project_path }}/shared"  # Path for shared directory
+
+# Scripts Path
+scripts_path: "{{ project_path }}/scripts"  # Path for custom scripts (if any)
+
+# Docker Configuration
+docker_projects_path: "{{ project_path }}/docker"  # Path for all Docker Compose projects
+docker_network_name: "dnans_network" # Bridge network name
+
+# Cloudflare Configuration
+cloudflare_email: grady@gradyp.com
+
+# Let's Encrypt Configuration
+letsencrypt_email: gradyp@snand.org
+
+# WordPress Configuration
+wordpress_url: wordpress.dnans.org
+phpmyadmin_url: phpmyadmin.dnans.org
+wordpress_database_user: wp_user
+
+# immich configuration
+immich_url: immich.dnans.org
+photo_share: "{{ project_path }}/shared/photos"  # Path for immich external library
+# immich_version:             # The immich version to use. You can pin this to a specific version like "v1.71.0"
+# immich_env_name             # default: immich
+# immich_database_name:       # default: immich
+# immich_database_user:       # default: immich
+# immich_server_path:         # default: disabled

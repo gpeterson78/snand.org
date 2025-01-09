@@ -1,0 +1,62 @@
+---
+- name: Ensure Docker is installed
+  apt:
+    name:
+      - docker.io
+      - docker-compose
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker service is started
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Create Docker bridge network
+  community.docker.docker_network:
+    name: "{{ docker_network_name }}"
+    driver: bridge
+    ipam_config:
+      - subnet: 192.168.1.0/24  # Example subnet, adjust based on your network
+    internal: no  # Ensures the network is accessible externally
+    state: present
+
+- name: Ensure traefik data directories exist
+  file:
+    path: "{{ docker_projects_path }}/traefik/{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  with_items:
+    - data  # For storing traefik's dynamic config or certificates
+
+- name: Generate .env file for traefik
+  template:
+    src: .env.j2
+    dest: "{{ docker_projects_path }}/traefik/.env"
+    mode: '0644'
+
+- name: Warn if Cloudflare DNS API token is not set
+  ansible.builtin.debug:
+    msg: "Warning: The Cloudflare DNS API token is not set."
+  when: cloudflare_api_token | default('') == ''
+
+- name: Generate docker-compose.yaml for traefik
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ docker_projects_path }}/traefik/docker-compose.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Launch traefik with Docker Compose
+  community.docker.docker_compose:
+    project_src: "{{ docker_projects_path }}/traefik"
+    state: present
+    pull: yes
+    recreate: smart  # Use 'always', 'never', or 'smart'
+    remove_orphans: yes
+  notify:
+    - Restart Docker services

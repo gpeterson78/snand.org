@@ -1,0 +1,88 @@
+---
+- name: Prompt for ansible_become_password
+  pause:
+    prompt: "Enter the become password (leave empty to exclude):"
+  register: become_password_input
+  no_log: true
+
+- name: Prompt for SMB password
+  pause:
+    prompt: "Enter SMB password (leave empty to auto-generate):"
+  register: smb_password_input
+  no_log: true
+
+- name: Generate SMB password if not entered
+  set_fact:
+    smb_password: "{{ smb_password_input.user_input | default(lookup('password', '/dev/null chars=ascii_letters,digits length=15')) }}"
+
+- name: Prompt for database password
+  pause:
+    prompt: "Enter database password (leave empty to auto-generate):"
+  register: database_password_input
+  no_log: true
+
+- name: Generate database password if not entered
+  set_fact:
+    database_password: >-
+      {{ 
+        (database_password_input.user_input | default(None)) 
+        if database_password_input.user_input | length > 0 
+        else lookup('password', '/dev/null chars=ascii_letters,digits length=15') 
+      }}
+
+#- name: Set Immich and WordPress database passwords
+#  set_fact:
+#    immich_database_password: "{{ database_password }}"
+#    wordpress_database_password: "{{ database_password }}"
+
+- name: Prompt for database ROOT password
+  pause:
+    prompt: "Enter ROOT password (leave empty to auto-generate):"
+  register: root_password_input
+  no_log: true
+
+- name: Generate database ROOT password if not entered
+  set_fact:
+    database_root_password: >-
+      {{ 
+        (root_password_input.user_input | default(None)) 
+        if root_password_input.user_input | length > 0 
+        else lookup('password', '/dev/null chars=ascii_letters,digits length=31') 
+      }}
+
+- name: Prompt for Cloudflare API token
+  pause:
+    prompt: "Enter Cloudflare API token (leave empty for default ''):"
+  register: cloudflare_api_input
+  no_log: true
+
+# Assemble all variables into a single YAML content block
+- name: Assemble vault content
+  set_fact:
+    vault_content: |
+      ansible_become_password: "{{ become_password_input.user_input | default('') }}"
+      smb_password: "{{ smb_password }}"
+      database_password: "{{ database_password }}"
+      database_root_password: "{{ database_root_password }}"
+      cloudflare_api_token: "{{ cloudflare_api_input.user_input | default('') }}"
+
+# Write the assembled content to a temporary file
+- name: Write unencrypted vault content to a temporary file
+  copy:
+    dest: /tmp/vault_unencrypted.yaml
+    content: "{{ vault_content }}"
+#  no_log: true
+
+# Encrypt the temporary file into the vault file
+- name: Encrypt the vault file
+  command: >
+    ansible-vault encrypt /tmp/vault_unencrypted.yaml --output group_vars/vault.yaml
+#  args:
+#    warn: false
+#  no_log: true
+
+# Remove the unencrypted temporary file
+- name: Remove the unencrypted temporary file
+  file:
+    path: /tmp/vault_unencrypted.yaml
+    state: absent

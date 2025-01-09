@@ -1,0 +1,73 @@
+---
+- name: Install Samba
+  apt:
+    name: samba
+    state: present
+    update_cache: yes
+
+- name: Ensure Samba user {{ ansible_user }} exists
+  shell: |
+    (echo "{{ smb_password }}"; echo "{{ smb_password }}") | smbpasswd -s -a "{{ ansible_user }}"
+  ignore_errors: true
+  changed_when: false
+
+- name: Update Samba password for {{ ansible_user }}
+  shell: |
+    (echo "{{ smb_password }}"; echo "{{ smb_password }}") | smbpasswd -s "{{ ansible_user }}"
+  when: ansible_user is defined
+
+- name: Configure global Samba settings
+  blockinfile:
+    path: /etc/samba/smb.conf
+    marker: "; ANSIBLE MANAGED BLOCK - GLOBAL"
+    block: |
+      [global]
+      workgroup = WORKGROUP
+      security = user
+      map to guest = Bad User
+      guest account = nobody
+
+- name: Configure SMB share for shared directory
+  blockinfile:
+    path: /etc/samba/smb.conf
+    marker: "; ANSIBLE MANAGED BLOCK - SHARED"
+    block: |
+      [shared]
+      path = {{ project_path }}/shared
+      browseable = yes
+      writable = yes
+      guest ok = yes
+      public = yes
+      create mask = 0666  # Read and write for all
+      directory mask = 0777
+      force user = nobody
+      force group = nogroup
+      read only = no
+
+- name: Configure SMB share for user home directory
+  blockinfile:
+    path: /etc/samba/smb.conf
+    marker: "; ANSIBLE MANAGED BLOCK - USER"
+    block: |
+      [{{ ansible_user }}]
+      path = /home/{{ ansible_user }}
+      browseable = yes
+      writable = yes
+      valid users = {{ ansible_user }}
+      create mask = 0700
+      directory mask = 0700
+      read only = no
+
+- name: Ensure permissions for shared directory
+  file:
+    path: "{{ project_path }}/shared"
+    state: directory
+    mode: '0777'
+    owner: nobody
+    group: nogroup
+
+- name: Restart Samba service
+  systemd:
+    name: smbd
+    state: restarted
+    enabled: yes

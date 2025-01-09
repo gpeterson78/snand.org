@@ -1,0 +1,47 @@
+---
+- name: Install required packages
+  apt:
+    name:
+      - docker.io
+      - docker-compose
+      - samba
+      - nfs-kernel-server
+    state: present
+    update_cache: yes
+
+- name: Add user to Docker group
+  user:
+    name: "{{ ansible_user }}" # defined in /group_vars/all.yaml
+    groups: docker
+    append: yes
+
+- name: Enable and start Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Ensure project directory exists
+  file:
+    path: "{{ project_path }}" # defined in /group_vars/all.yaml
+    state: directory
+    mode: '0755'
+
+- name: Add UUID mount to /etc/fstab
+  mount:
+    path: "{{ project_path }}" # Defined in group_vars/all.yaml
+    src: "UUID={{ mount_uuid }}" # Defined in group_vars/all.yaml
+    fstype: ext4
+    opts: defaults
+    state: present
+  when: mount_uuid is defined and mount_uuid != ""
+
+- name: Mount project directory
+  mount:
+    path: "{{ project_path }}" # Defined in group_vars/all.yaml
+    src: "UUID={{ mount_uuid }}" # Defined in group_vars/all.yaml
+    fstype: ext4
+    opts: defaults
+    state: mounted
+  when: mount_uuid is defined and mount_uuid != ""
+
