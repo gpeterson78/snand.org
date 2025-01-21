@@ -2,7 +2,6 @@
 - name: Install required packages
   apt:
     name:
-      - sudo
       - docker.io
       - docker-compose
       - samba
