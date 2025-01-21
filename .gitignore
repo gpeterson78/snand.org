@@ -2,6 +2,7 @@
 install.md
 temp
 snand.config
+vault.yaml
 
 # Ignore local environment configuration
 .env

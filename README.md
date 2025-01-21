@@ -1,135 +1,76 @@
-# snand project
+# snand.org
 
-the **snand project** is a self-hosted family blog and media-sharing site designed to replace traditional cms platforms like wordpress.  it leverages modern tools and frameworks to create a customizable, lightweight, and accessible platform for families to share and preserve memories while promoting diy self-hosting solutions.
+## the snand foundation - *a place for snand*
 
-## objectives
+**address:** [www.snand.org](https://www.snand.org)  
+**version:** 1.1  
+**release date:** 10-26-2024  
+**license:** MIT
 
-1. **create a customizable blog**:
-   - replace wordpress with a more efficient, self-built solution.  
-   - serve static content with ease.
+---
 
-2. **support key features**:
-   - static content management.  
-   - commenting system.  
-   - authentication and access control.  
-   - image and video handling.  
-   - embeds from other sites.
+## welcome to the official repository for snand.org
 
-3. **promote self-hosting**:
-   - share resources and instructions for self-hosting.  
-   - provide a straightforward setup for non-technical users.
+here is where we maintain all the necessary files and configurations to run our pile of garbage. this repository is primarily focused on the stuff I use to learn and play with when building snand.org. the purpose of this repository is both educational and to provide hosting services for family-related projects. projects here are under *very* active development and should not be used by anyone (including me), but be my guest.
 
-4. **learn and demonstrate**:
-   - showcase how modern ai and open-source tools simplify self-hosting.  
-   - serve as a practical learning project in python and infrastructure development.
+### projects list
 
-## technology stack
+This repository includes the following projects (list will grow):
 
-### framework
-- **django cms**: chosen for its robust features and alignment with project goals.
+- **traefik**: uses letsencrypt and cloudflare to provide certificates to my internal services.
+- **WordPress + phpMyAdmin**: current config of snand.org's  wordpress site
+- **Immich**: Immich is a google photos type site that I use to backup and share our family photos.
 
-### deployment
-- **docker**: ensures portability and avoids dependency issues.  
-- **ansible**: automates server deployment and management and ensures reproducability.
+### usage
 
-### hosting
-- **low-power debian server**:
-  - services managed via docker.  
-  - traefik for ingress and let's encrypt certificates.  
-  - cloudflare for dns and external access.
+clone this repo to a folder (I use /snand and I do try to parametarize all the paths where possible, it's likely I have this path hardcoded accidentally). then mark the snandup.sh scrip as executable and launch it (this setup assumes a vanilla linux install with git and docker).  to get started:
 
-### integration
-- **immich backend**: avoids duplicating assets for photo sharing.
-
-## development workflow
-
-1. **environment setup**:
-   - develop using docker containers for consistency.  
-   - utilize ansible for deployment scripts.
-
-2. **planned features**:
-   - static content as the primary priority.  
-   - build a robust commenting system.  
-   - incorporate user authentication and access control.  
-   - expand support for images, videos, and embeds.
-
-3. **architecture**:
-   - django cms serves as the core framework.  
-   - keep the project modular and extendable.
-
-## project journey
-
-### initial goals
-1. replace wordpress with a custom solution.
-2. integrate with existing self-hosted services, like immich for photo-sharing.
-3. maintain simplicity and focus on learning while building a practical system.
-4. prioritize portability, documentation, and ease of setup using docker and ansible.
-
-### key decisions and milestones
-1. **framework selection:** django cms was chosen for its wysiwyg editor and robust features, allowing for customization of css and design.
-2. **development approach:**
-   - development began with python virtual environments, transitioning to docker containers for production.
-   - integration of a containerized postgresql database.
-3. **learning and exploration:**
-   - explored and evaluated `djangocms-blog`, but ultimately chose to use straight django cms for simplicity and flexibility.
-   - gained understanding of dockerized setups through the `djangocms-quickstart` container, which now serves as the foundation for the project.
-
-### current focus
-1. **front page recreation:**
-   - recreate the wordpress site’s front page style.
-   - keep functionality minimal for now, focusing on demonstrating basic capabilities.
-2. **example site:**
-   - build an example site with django cms to serve as a live tutorial and starting point for others.
-
-## next steps
-
-1. **learn django cms:**
-   - read documentation and watch tutorials to understand site-building fundamentals.
-   - experiment with django cms features to design the front page and basic layout.
-2. **build the example site:**
-   - create a basic page using django cms.
-   - document the process for reuse and learning purposes.
-3. **chamboard integration:**
-   - transition chamboard’s api to use django cms as the source of truth.
-   - ensure smooth integration with the rest of the snand ecosystem.
-4. **immich integration:**
-   - after chamboard, integrate an immich instance.
-   - use immich apis for image hosting while maintaining a seamless system-wide experience.
-5. **expand functionality:**
-   - add commenting, authentication, and media embedding features as needed.
-
-## getting started
-
-# this section is not accurate and will be replaced
-
-### prerequisites
-- **docker** and **docker compose** installed on your development machine.  
-- basic familiarity with python, docker, and linux environments.
-
-### setup instructions
-1. clone this repository:
-   ```bash
-   git clone https://github.com/your-username/snand.git
-   cd snand
-   ```
-
-2. build and start the containers:
-   ```bash
-   docker-compose up -d
-   ```
-
-3. access the application:
-   - development environment: `http://localhost`  
-   - production environment: configure domain and traefik settings.
-
-### deployment
-use the provided ansible playbooks to deploy the project to your server:
 ```bash
-ansible-playbook -i inventory deploy.yml
+
+git clone https://github.com/gpeterson78/snand.org.git .
 ```
 
-## documentation
-visit the [documentation folder](docs/) for setup guides, user instructions, and self-hosting resources.
+mark the setup script executable:
 
-## license
-this project is open-source under the [mit license](LICENSE).
+```bash
+
+[sudo] chmod +x ./snandup.sh
+[sudo] ./snandup.sh
+```
+
+upon execution, this script will look for and create any missing .env files, then looks for and launches any docker compose project within the directory.
+
+### support
+
+If you encounter any issues or have questions regarding the setup and configuration of any project contained in this repository, go ask dad.  but seriously, this comes with none and will most likely break something.
+
+### license
+
+This repository and its contents are provided for private use and educational purposes only. Please respect the licenses of the individual projects included within.
+
+In addition to the above, all code directly authored by me in this repository is licensed under the MIT License, unless explicitly stated otherwise. This is applicable where I am the original author of the content; it allows you to freely use, modify, and distribute the code, subject to the following conditions:
+
+#### MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## release Notes
+
+## version 1.1(a)
+
+- **versioning** will all be done in this file from now on, it's pulled from individual scripts.
+- got **letsencrypt** working, ~~I think.~~ confirmed.  I now have secure hosting internally and externally.
+- 1.1a - fixed traefik external network.  full reload would result in extra traefik_network_network but external seems to be working.
+
+### version 1.0a
+
+- **cleaned up this file.**  If I'm versioning and keeping comments, I'd better get the format going now.
+- *Future revision necessary* - need to figure out versioning system, likely in snandup script (this is ground up after all).
+
+### version 1.0
+
+- **initial release** - lots to go from here, but gotta start somewhere.

@@ -1,13 +1,13 @@
-# dnans.org Ansible Test Playground
+# dnans.org is snand.org's test playground
 
-# present state - completely broken, I'm mid-stream of a refactor of many things so this is currently a development branch
+# present state - kinda working actually.  
 
-dnans is [gradyp's](https://www.gradyp.com) dev environment. this is purely a place to learn and play.
+## still a fair bit of work until it's production ready but so far it's proving to be more effective than the .sh scripts.
 
-currently this is my Ansible playground where I'm exploring potential replacements for [snand.org's](https://snand.org) script based setup.
+dnans is [snand's](https://www.snand.org) dev environment. this is purely a place to learn and play and test out features for the main snand.org.  currently this is my Ansible playground where I'm exploring potential replacements for my script based setup.
 
 **disclaimer**:  
-this repo is experimental and contains work-in-progress code.  it's not intended for public use, but if you find anything here useful, feel free...
+this directory is experimental and contains work-in-progress crap.  it's not intended for public use, but if you find anything here useful, feel free...
 
 ---
 
@@ -37,7 +37,7 @@ this repo is experimental and contains work-in-progress code.  it's not intended
 
 | Version   | Status        | Description                      |
 |-----------|---------------|----------------------------------|
+| `v0.0.3`  | wip | rolled it back into snand.org's repo, better to keep together. |
 | `v0.0.2`  | wip | Docker, traefik and wordpress working. |
 | `v0.0.1`  | wip | Initial setup, basic configurations. |
 | `v0.0.x`  | begin progress | Iterative improvements and testing. |
-
