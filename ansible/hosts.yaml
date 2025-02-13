@@ -1,0 +1,10 @@
+# hosts.yaml
+all:
+  children:
+    servers:
+      hosts:
+        localhost: 
+        snand:
+          ansible_host: snand.dundermifflin
+          ansible_user: gradyp
+          ansible_become: yes
