@@ -43,7 +43,10 @@
             autoremove: yes
           when: sys_info.ansible_facts.ansible_distribution != "Fedora"
 
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
     - name: Reboot if required
       ansible.builtin.reboot:
         msg: "Rebooting after OS upgrade if needed"
-      when: ansible_facts.packages.get("linux-firmware", [{}])[0].get("version", "") != ""
+      when: "'linux-firmware' in ansible_facts.packages"

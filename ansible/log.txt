@@ -2,3 +2,7 @@
 gradyp@dnansible:~/git/snand.org/ansible $ ansible -i hosts.yaml --list-hosts all
   hosts (1):
     snand
+[created upgrade_docker_hosts.yaml]
+sudo apt install sshpass -y
+
+ansible-playbook -i hosts.yaml upgrade_docker_hosts.yaml --ask-pass --ask-become-pass
