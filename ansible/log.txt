@@ -3,8 +3,8 @@ gradyp@dnansible:~/git/snand.org/ansible $ ansible -i hosts.yaml --list-hosts al
   hosts (1):
     snand
 [created upgrade_docker_hosts.yaml]
-sudo apt install sshpass -y
-ansible-playbook -i hosts.yaml upgrade_docker_hosts.yaml --ask-pass --ask-become-pass
+gradyp@dnansible:sudo apt install sshpass -y
+gradyp@dnansible:ansible-playbook -i hosts.yaml upgrade_docker_hosts.yaml --ask-pass --ask-become-pass
 [created ansible structure]
     ansible/
     │── playbooks/
@@ -22,3 +22,8 @@ ansible-playbook -i hosts.yaml upgrade_docker_hosts.yaml --ask-pass --ask-become
     │   │   │   ├── main.yaml  # Default variables
     |── group_vars
     |   |── docker_host.yaml
+gradyp@dnansible:~/git/snand.org/ansible $ ansible-vault encrypt group_vars/docker_host.yaml
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+gradyp@dnansible:ansible-vault edit group_vars/docker_host.yaml

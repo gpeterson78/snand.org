@@ -1,6 +1,0 @@
-- name: Clone or update the Git repository
-  ansible.builtin.git:
-    repo: "{{ git_repo_url }}"
-    dest: "/tmp/snand-repo"
-    version: main
-    update: yes

@@ -1,0 +1,10 @@
+project_root: "/snand"  # Default path, can be overridden globally
+
+# Paths derived from project_root
+git_clone_path: "{{ project_root }}/git"
+docker_root: "{{ project_root }}/docker"
+backup_path: "{{ project_root }}/backup"
+smb_share_path: "{{ project_root }}/shared"
+
+# Git Repository
+git_repo_url: "https://github.com/gpeterson78/snand.org.git"

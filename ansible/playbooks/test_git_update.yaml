@@ -1,0 +1,8 @@
+- name: Test Git Update Task
+  hosts: docker_host
+  become: true
+  vars_files:
+    - ../group_vars/all.yaml
+  tasks:
+    - name: Run Git update task
+      ansible.builtin.import_tasks: ../roles/docker_services/tasks/git_update.yaml

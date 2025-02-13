@@ -1,0 +1,17 @@
+- name: Ensure the Git directory exists
+  ansible.builtin.file:
+    path: "{{ git_clone_path }}"
+    state: directory
+    mode: '0755'
+
+- name: Clone or update the Git repository
+  ansible.builtin.git:
+    repo: "{{ git_repo_url }}"
+    dest: "{{ git_clone_path }}"
+    version: main
+    update: yes
+  register: git_pull_result
+
+- name: Display Git pull status
+  ansible.builtin.debug:
+    msg: "Git pull completed: {{ git_pull_result.before }} → {{ git_pull_result.after }}"
