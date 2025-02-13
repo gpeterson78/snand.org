@@ -52,9 +52,13 @@
     - name: Gather package facts
       ansible.builtin.package_facts:
 
+ #   - name: Check if reboot is required
+ #     set_fact:
+ #       reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
+        
     - name: Check if reboot is required
       set_fact:
-        reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
+        reboot_required: "{{ ('linux-firmware' in ansible_facts.packages) or (ansible_facts.os_family == 'Debian' and ansible_facts['ansible_local'] is defined and ansible_facts['ansible_local'].reboot_required is defined) }}"
 
     - name: Ask user how they want to handle the reboot (only if needed)
       ansible.builtin.pause:
