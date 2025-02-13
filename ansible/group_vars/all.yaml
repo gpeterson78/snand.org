@@ -8,3 +8,9 @@ smb_share_path: "{{ project_root }}/shared"
 
 # Git Repository
 git_repo_url: "https://github.com/gpeterson78/snand.org.git"
+
+# Docker Variables
+docker_root: "{{ project_root }}/docker"
+
+# Wordpress variables
+wordpress_path: "{{ docker_root }}/wordpress"
