@@ -14,3 +14,6 @@ docker_root: "{{ project_root }}/docker"
 
 # Wordpress variables
 wordpress_path: "{{ docker_root }}/wordpress"
+
+# Immich variables
+immich_path: "{{ docker_root }}/immich"
