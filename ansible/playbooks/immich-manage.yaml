@@ -1,17 +1,18 @@
-- name: Manage Immich Docker Compose Project
+- name: Manage Immich Docker Compose Services
   hosts: docker_host
   become: true
   vars_files:
     - ../group_vars/all.yaml
 
   tasks:
-    - name: Ensure Docker and Docker Compose are installed
+    - name: Ensure Docker and dependencies are installed
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
       loop:
         - docker.io
-        - docker-compose
+        - docker-compose-plugin
+        - python3-docker
       when: ansible_os_family == "Debian"
 
     - name: Ensure Docker is running
@@ -20,19 +21,21 @@
         state: started
         enabled: yes
 
-    - name: Pull the latest images
-      ansible.builtin.command:
-        cmd: "docker compose pull"
-        chdir: "{{ immich_path }}"
-      when: update_service | default(false)
-
-    - name: Start Immichs services
-      ansible.builtin.command:
-        cmd: "docker compose up -d"
-        chdir: "{{ immich_path }}"
+    - name: Deploy Immich with Docker Compose
+      community.docker.docker_compose:
+        project_src: "{{ immich_path }}"
+        pull: yes
+        build: no
+        state: present
+        restarted: "{{ update_service | default(false) }}"
+      register: compose_result
 
     - name: Stop Immich services
-      ansible.builtin.command:
-        cmd: "docker compose down"
-        chdir: "{{ immich_path }}"
+      community.docker.docker_compose:
+        project_src: "{{ immich_path }}"
+        state: absent
       when: stop_service | default(false)
+
+    - name: Display Compose Status
+      ansible.builtin.debug:
+        var: compose_result
