@@ -71,7 +71,7 @@
 
     - name: Ask user how they want to handle the reboot (only if needed)
       ansible.builtin.pause:
-        prompt: "System upgrade complete. A reboot is recommended. Type 'yes' to reboot now, 'schedule' for 2:00 AM, or 'no' to reboot manually."
+        prompt: "System upgrade complete. A reboot is recommended. Type 'yes' to reboot now or 'no' to reboot manually."
       register: reboot_response
       when: reboot_required
 
@@ -79,11 +79,6 @@
       ansible.builtin.reboot:
         msg: "Rebooting after OS upgrade as requested"
       when: reboot_required and reboot_response.user_input | lower == 'yes'
-
-    - name: Schedule a reboot for 2:00 AM if selected
-      ansible.builtin.command:
-        cmd: "shutdown -r 02:00"
-      when: reboot_required and reboot_response.user_input | lower == 'schedule'
 
     - name: Display warning if reboot is declined
       ansible.builtin.debug:
