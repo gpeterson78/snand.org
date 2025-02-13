@@ -1,12 +1,6 @@
 - name: Full OS Upgrade
-  hosts: docker_host  # Adjust to target group or specific hosts
+  hosts: docker_host
   become: true
-
-  vars_prompt:
-    - name: confirm_reboot
-      prompt: "System upgrade complete. A reboot is recommended. Choose: (yes/no/schedule)"
-      private: no
-
   tasks:
 
     - name: Display warning message
@@ -62,17 +56,23 @@
       set_fact:
         reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
 
-    - name: Reboot immediately
+    - name: Ask user how they want to handle the reboot (only if needed)
+      ansible.builtin.pause:
+        prompt: "System upgrade complete. A reboot is recommended. Type 'yes' to reboot now, 'schedule' for 2:00 AM, or 'no' to reboot manually."
+      register: reboot_response
+      when: reboot_required
+
+    - name: Reboot immediately if chosen
       ansible.builtin.reboot:
         msg: "Rebooting after OS upgrade as requested"
-      when: reboot_required and confirm_reboot | lower == 'yes'
+      when: reboot_required and reboot_response.user_input | lower == 'yes'
 
     - name: Schedule a reboot for 2:00 AM if selected
       ansible.builtin.command:
         cmd: "shutdown -r 02:00"
-      when: reboot_required and confirm_reboot | lower == 'schedule'
+      when: reboot_required and reboot_response.user_input | lower == 'schedule'
 
     - name: Display warning if reboot is declined
       ansible.builtin.debug:
         msg: "WARNING: The system must be rebooted manually, or some services may not function properly."
-      when: reboot_required and confirm_reboot | lower == 'no'
+      when: reboot_required and reboot_response.user_input | lower == 'no'
