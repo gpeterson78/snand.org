@@ -1,0 +1,49 @@
+- name: Full OS Upgrade
+  hosts: docker_host  # Adjust to target group or specific hosts
+  become: true
+  tasks:
+
+    - name: Detect OS Family
+      ansible.builtin.setup:
+      register: sys_info
+      changed_when: false
+
+    - name: Upgrade Debian/Ubuntu Systems
+      when: sys_info.ansible_facts.ansible_os_family == "Debian"
+      block:
+        - name: Update apt package cache
+          ansible.builtin.apt:
+            update_cache: yes
+
+        - name: Upgrade all packages
+          ansible.builtin.apt:
+            upgrade: dist
+
+        - name: Remove unused dependencies
+          ansible.builtin.apt:
+            autoremove: yes
+
+    - name: Upgrade RHEL-based Systems (CentOS, Rocky, AlmaLinux, Fedora)
+      when: sys_info.ansible_facts.ansible_os_family == "RedHat"
+      block:
+        - name: Update YUM/DNF package cache
+          ansible.builtin.yum:
+            name: '*'
+            state: latest
+          when: sys_info.ansible_facts.ansible_distribution != "Fedora"
+
+        - name: Update DNF package cache (Fedora)
+          ansible.builtin.dnf:
+            name: '*'
+            state: latest
+          when: sys_info.ansible_facts.ansible_distribution == "Fedora"
+
+        - name: Remove old dependencies
+          ansible.builtin.yum:
+            autoremove: yes
+          when: sys_info.ansible_facts.ansible_distribution != "Fedora"
+
+    - name: Reboot if required
+      ansible.builtin.reboot:
+        msg: "Rebooting after OS upgrade if needed"
+      when: ansible_facts.packages.get("linux-firmware", [{}])[0].get("version", "") != ""
