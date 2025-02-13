@@ -1,8 +1,4 @@
-# hosts.yaml
 all:
   hosts:
-    localhost: 
     snand:
-      ansible_host: snand.dundermifflin
-      ansible_user: gradyp
-      ansible_become: yes
+      ansible_host: 10.0.0.19
