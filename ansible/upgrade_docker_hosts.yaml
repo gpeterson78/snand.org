@@ -3,6 +3,12 @@
   become: true
   tasks:
 
+    - name: Display warning message
+      ansible.builtin.pause:
+        prompt: |
+          WARNING: This playbook will upgrade all packages and may require a reboot.
+          Press ENTER to continue or Ctrl+C to abort.
+
     - name: Detect OS Family
       ansible.builtin.setup:
       register: sys_info
@@ -46,7 +52,33 @@
     - name: Gather package facts
       ansible.builtin.package_facts:
 
-    - name: Reboot if required
+    - name: Check if reboot is required
+      set_fact:
+        reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
+
+    - name: Ask user how they want to handle the reboot
+      vars_prompt:
+        - name: confirm_reboot
+          prompt: "System upgrade complete. A reboot is recommended. Choose: (yes/no/schedule)"
+          private: no
+      when: reboot_required
+
+    - name: Reboot immediately
       ansible.builtin.reboot:
-        msg: "Rebooting after OS upgrade if needed"
-      when: "'linux-firmware' in ansible_facts.packages"
+        msg: "Rebooting after OS upgrade as requested"
+      when: reboot_required and confirm_reboot | lower == 'yes'
+
+    - name: Schedule a reboot for 2:00 AM if selected
+      ansible.builtin.command:
+        cmd: "shutdown -r 02:00"
+      when: reboot_required and confirm_reboot | lower == 'schedule'
+
+    - name: Display warning if reboot is declined
+      ansible.builtin.debug:
+        msg: "WARNING: The system must be rebooted manually, or some services may not function properly."
+      when: reboot_required and confirm_reboot | lower == 'no'
+
+#    - name: Reboot if required
+#      ansible.builtin.reboot:
+#        msg: "Rebooting after OS upgrade if needed"
+#      when: "'linux-firmware' in ansible_facts.packages"
