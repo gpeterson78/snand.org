@@ -1,3 +1,24 @@
+- name: Check if Git is installed
+  ansible.builtin.command: "which git"
+  register: git_check
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Git on Debian-based systems
+  ansible.builtin.apt:
+    name: git
+    state: present
+    update_cache: yes
+  when: git_check.rc != 0 and ansible_facts['os_family'] == "Debian"
+  become: true
+
+- name: Install Git on RHEL-based systems
+  ansible.builtin.dnf:
+    name: git
+    state: present
+  when: git_check.rc != 0 and ansible_facts['os_family'] == "RedHat"
+  become: true
+
 - name: Ensure the Git directory exists
   ansible.builtin.file:
     path: "{{ git_clone_path }}"
