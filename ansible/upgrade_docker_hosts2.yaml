@@ -1,6 +1,12 @@
-- name: Full OS Upgrade with Confirmation and Reboot Control
-  hosts: docker_host
+- name: Full OS Upgrade
+  hosts: docker_host  # Adjust to target group or specific hosts
   become: true
+
+  vars_prompt:
+    - name: confirm_reboot
+      prompt: "System upgrade complete. A reboot is recommended. Choose: (yes/no/schedule)"
+      private: no
+
   tasks:
 
     - name: Display warning message
@@ -9,11 +15,13 @@
           WARNING: This playbook will upgrade all packages and may require a reboot.
           Press ENTER to continue or Ctrl+C to abort.
 
-    - name: Gather system information
+    - name: Detect OS Family
       ansible.builtin.setup:
+      register: sys_info
+      changed_when: false
 
     - name: Upgrade Debian/Ubuntu Systems
-      when: ansible_facts.ansible_os_family == "Debian"
+      when: sys_info.ansible_facts.ansible_os_family == "Debian"
       block:
         - name: Update apt package cache
           ansible.builtin.apt:
@@ -28,24 +36,24 @@
             autoremove: yes
 
     - name: Upgrade RHEL-based Systems (CentOS, Rocky, AlmaLinux, Fedora)
-      when: ansible_facts.ansible_os_family == "RedHat"
+      when: sys_info.ansible_facts.ansible_os_family == "RedHat"
       block:
         - name: Update YUM/DNF package cache
           ansible.builtin.yum:
             name: '*'
             state: latest
-          when: ansible_facts.ansible_distribution != "Fedora"
+          when: sys_info.ansible_facts.ansible_distribution != "Fedora"
 
         - name: Update DNF package cache (Fedora)
           ansible.builtin.dnf:
             name: '*'
             state: latest
-          when: ansible_facts.ansible_distribution == "Fedora"
+          when: sys_info.ansible_facts.ansible_distribution == "Fedora"
 
         - name: Remove old dependencies
           ansible.builtin.yum:
             autoremove: yes
-          when: ansible_facts.ansible_distribution != "Fedora"
+          when: sys_info.ansible_facts.ansible_distribution != "Fedora"
 
     - name: Gather package facts
       ansible.builtin.package_facts:
@@ -53,13 +61,6 @@
     - name: Check if reboot is required
       set_fact:
         reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
-
-    - name: Ask user how they want to handle the reboot
-      vars_prompt:
-        - name: confirm_reboot
-          prompt: "System upgrade complete. A reboot is recommended. Choose: (yes/no/schedule)"
-          private: no
-      when: reboot_required
 
     - name: Reboot immediately
       ansible.builtin.reboot:
