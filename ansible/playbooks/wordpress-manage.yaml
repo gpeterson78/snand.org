@@ -1,17 +1,18 @@
-- name: Manage WordPress Docker Compose Project
+- name: Manage Worpress Docker Compose Services
   hosts: docker_host
   become: true
   vars_files:
     - ../group_vars/all.yaml
 
   tasks:
-    - name: Ensure Docker and Docker Compose are installed
+    - name: Ensure Docker and dependencies are installed
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
       loop:
         - docker.io
-        - docker-compose
+        - docker-compose-plugin
+        - python3-docker
       when: ansible_os_family == "Debian"
 
     - name: Ensure Docker is running
@@ -20,19 +21,21 @@
         state: started
         enabled: yes
 
-    - name: Pull the latest WordPress, MariaDB, and phpMyAdmin images
-      ansible.builtin.command:
-        cmd: "docker compose pull"
-        chdir: "{{ wordpress_path }}"
-      when: update_service | default(false)
+    - name: Deploy Wordpress with Docker Compose
+      community.docker.docker_compose:
+        project_src: "{{ wordpress_path }}"
+        pull: yes
+        build: no
+        state: present
+        restarted: "{{ update_service | default(false) }}"
+      register: compose_result
 
-    - name: Start WordPress services
-      ansible.builtin.command:
-        cmd: "docker compose up -d"
-        chdir: "{{ wordpress_path }}"
-
-    - name: Stop WordPress services
-      ansible.builtin.command:
-        cmd: "docker compose down"
-        chdir: "{{ wordpress_path }}"
+    - name: Stop Wordpress services
+      community.docker.docker_compose:
+        project_src: "{{ wordpress_path }}"
+        state: absent
       when: stop_service | default(false)
+
+    - name: Display Compose Status
+      ansible.builtin.debug:
+        var: compose_result
