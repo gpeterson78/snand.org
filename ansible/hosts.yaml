@@ -1,4 +1,9 @@
 all:
-  hosts:
-    snand:
-      ansible_host: 10.0.0.19
+  children:
+    docker_host:
+      hosts:
+        snand:
+          ansible_host: 10.0.0.19
+      vars:
+        ansible_user: gradyp
+        ansible_become: true

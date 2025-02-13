@@ -1,0 +1,4 @@
+[created hosts.yaml]
+gradyp@dnansible:~/git/snand.org/ansible $ ansible -i hosts.yaml --list-hosts all
+  hosts (1):
+    snand
