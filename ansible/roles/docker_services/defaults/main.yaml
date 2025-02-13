@@ -1,0 +1,5 @@
+- name: Update and Manage Docker Services
+  hosts: docker_host
+  become: true
+  roles:
+    - docker_services

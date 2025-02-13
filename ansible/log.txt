@@ -4,5 +4,21 @@ gradyp@dnansible:~/git/snand.org/ansible $ ansible -i hosts.yaml --list-hosts al
     snand
 [created upgrade_docker_hosts.yaml]
 sudo apt install sshpass -y
-
 ansible-playbook -i hosts.yaml upgrade_docker_hosts.yaml --ask-pass --ask-become-pass
+[created ansible structure]
+    ansible/
+    │── playbooks/
+    │   ├── update_docker_services.yaml  # Main playbook
+    │── roles/
+    │   ├── docker_services/
+    │   │   ├── tasks/
+    │   │   │   ├── update_git.yaml  # Git sync
+    │   │   │   ├── backup_files.yaml  # Backup old configs
+    │   │   │   ├── generate_env.yaml  # Generate .env files
+    │   │   │   ├── update_containers.yaml  # Pull latest images & restart
+    │   │   │   ├── start_containers.yaml  # Ensure all services are running
+    │   │   ├── templates/  # If needed for env files
+    │   │   ├── defaults/
+    │   │   │   ├── main.yaml  # Default variables
+    |── group_vars
+    |   |── docker_host.yaml

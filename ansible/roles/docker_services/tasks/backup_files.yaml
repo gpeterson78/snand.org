@@ -1,0 +1,14 @@
+- name: Create backup directory
+  ansible.builtin.file:
+    path: "{{ backup_path }}/temp_backup_{{ ansible_date_time.epoch }}"
+    state: directory
+
+- name: Archive backup files
+  ansible.builtin.archive:
+    path: "{{ item }}"
+    dest: "{{ backup_path }}/snand_config_{{ ansible_date_time.epoch }}.tar.gz"
+    format: gz
+  with_items:
+    - "{{ docker_root }}/wordpress"
+    - "{{ docker_root }}/immich"
+    - "{{ docker_root }}/traefik"

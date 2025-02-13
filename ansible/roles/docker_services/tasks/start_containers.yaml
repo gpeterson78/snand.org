@@ -1,0 +1,8 @@
+- name: Start all Docker Compose services
+  community.docker.docker_compose:
+    project_src: "{{ docker_root }}/{{ item }}"
+    state: present
+  with_items:
+    - wordpress
+    - immich
+    - traefik

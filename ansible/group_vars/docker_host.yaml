@@ -1,0 +1,32 @@
+docker_root: "/snand/docker"
+backup_path: "/snand/backup"
+
+git_repo_url: "https://github.com/gpeterson78/snand.org.git"
+
+wordpress:
+  url: "www.snand.org"
+  web_server_port: 4321
+  db_user: "wordpress"
+  db_password: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    encrypted_password_here
+  db_root_password: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    encrypted_root_password_here
+  data_path: "/opt/config"
+  mysql_data_path: "/opt/db"
+
+immich:
+  url: "immich.snand.org"
+  upload_location: "/opt/library"
+  db_user: "postgres"
+  db_password: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    encrypted_password_here
+
+traefik:
+  email: "gradyp@snand.org"
+  cloudflare_token: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    encrypted_api_token_here
+  log_level: "info"

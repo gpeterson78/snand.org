@@ -1,0 +1,9 @@
+- name: Generate .env file if missing
+  ansible.builtin.template:
+    src: env_template.j2
+    dest: "{{ docker_root }}/{{ item }}/.env"
+    force: no
+  with_items:
+    - wordpress
+    - immich
+    - traefik

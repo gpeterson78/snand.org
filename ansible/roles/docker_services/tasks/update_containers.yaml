@@ -1,0 +1,8 @@
+- name: Pull latest Docker images
+  community.docker.docker_compose:
+    project_src: "{{ docker_root }}/{{ item }}"
+    pull: yes
+  with_items:
+    - wordpress
+    - immich
+    - traefik
