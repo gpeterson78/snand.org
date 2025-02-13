@@ -17,3 +17,9 @@ wordpress_path: "{{ docker_root }}/wordpress"
 
 # Immich variables
 immich_path: "{{ docker_root }}/immich"
+
+# Cloudflared variables
+cloudflared_path: "{{ docker_root }}/cloudflare"
+
+# Traefik variables
+traefik_path: "{{ docker_root }}/traefik"
