@@ -1,0 +1,77 @@
+- name: Full OS Upgrade with Confirmation and Reboot Control
+  hosts: docker_host
+  become: true
+  tasks:
+
+    - name: Display warning message
+      ansible.builtin.pause:
+        prompt: |
+          WARNING: This playbook will upgrade all packages and may require a reboot.
+          Press ENTER to continue or Ctrl+C to abort.
+
+    - name: Gather system information
+      ansible.builtin.setup:
+
+    - name: Upgrade Debian/Ubuntu Systems
+      when: ansible_facts.ansible_os_family == "Debian"
+      block:
+        - name: Update apt package cache
+          ansible.builtin.apt:
+            update_cache: yes
+
+        - name: Upgrade all packages
+          ansible.builtin.apt:
+            upgrade: dist
+
+        - name: Remove unused dependencies
+          ansible.builtin.apt:
+            autoremove: yes
+
+    - name: Upgrade RHEL-based Systems (CentOS, Rocky, AlmaLinux, Fedora)
+      when: ansible_facts.ansible_os_family == "RedHat"
+      block:
+        - name: Update YUM/DNF package cache
+          ansible.builtin.yum:
+            name: '*'
+            state: latest
+          when: ansible_facts.ansible_distribution != "Fedora"
+
+        - name: Update DNF package cache (Fedora)
+          ansible.builtin.dnf:
+            name: '*'
+            state: latest
+          when: ansible_facts.ansible_distribution == "Fedora"
+
+        - name: Remove old dependencies
+          ansible.builtin.yum:
+            autoremove: yes
+          when: ansible_facts.ansible_distribution != "Fedora"
+
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
+    - name: Check if reboot is required
+      set_fact:
+        reboot_required: "{{ 'linux-firmware' in ansible_facts.packages }}"
+
+    - name: Ask user how they want to handle the reboot
+      vars_prompt:
+        - name: confirm_reboot
+          prompt: "System upgrade complete. A reboot is recommended. Choose: (yes/no/schedule)"
+          private: no
+      when: reboot_required
+
+    - name: Reboot immediately
+      ansible.builtin.reboot:
+        msg: "Rebooting after OS upgrade as requested"
+      when: reboot_required and confirm_reboot | lower == 'yes'
+
+    - name: Schedule a reboot for 2:00 AM if selected
+      ansible.builtin.command:
+        cmd: "shutdown -r 02:00"
+      when: reboot_required and confirm_reboot | lower == 'schedule'
+
+    - name: Display warning if reboot is declined
+      ansible.builtin.debug:
+        msg: "WARNING: The system must be rebooted manually, or some services may not function properly."
+      when: reboot_required and confirm_reboot | lower == 'no'
